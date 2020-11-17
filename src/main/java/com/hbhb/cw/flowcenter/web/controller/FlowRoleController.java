@@ -20,7 +20,6 @@ public class FlowRoleController implements FlowApi {
     @Resource
     private RoleUserService roleUserService;
 
-
     @Override
     public List<Integer> getFlowRoleUserList(String s) {
         return roleUserService.getUserId(s);
