@@ -1,5 +1,6 @@
 package com.hbhb.cw.flowcenter.service;
 
+import com.hbhb.cw.flowcenter.vo.FlowNodePropVO;
 import com.hbhb.cw.flowcenter.vo.SelectVO;
 
 import java.util.List;
@@ -23,5 +24,10 @@ public interface NodeService {
      * @return 节点数量
      */
     int countFlowNode(Long id);
+
+    /**
+     * 跟据流程id查询对应节点属性详情
+     */
+    List<FlowNodePropVO> getFlowProp(Long id);
 
 }

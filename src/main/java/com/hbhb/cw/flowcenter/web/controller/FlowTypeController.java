@@ -1,12 +1,17 @@
 package com.hbhb.cw.flowcenter.web.controller;
 
 import com.hbhb.cw.flowcenter.api.FlowTypeApi;
+import com.hbhb.cw.flowcenter.model.Flow;
 import com.hbhb.cw.flowcenter.service.TypeService;
-import io.swagger.v3.oas.annotations.tags.Tag;
+
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 import javax.annotation.Resource;
+
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 /**
  * @author wangxiaogang
@@ -21,5 +26,10 @@ public class FlowTypeController implements FlowTypeApi {
     @Override
     public Long getIdByNodeId(String nodeId) {
         return typeService.getIdByNodeId(nodeId);
+    }
+
+    @Override
+    public List<Flow> getFlowsByTypeId(Long flowTypeId) {
+       return typeService.getFlowsByTypeId(flowTypeId);
     }
 }

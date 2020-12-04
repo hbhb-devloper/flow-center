@@ -7,3 +7,12 @@ selectIdByNodeId
         left join flow_node fn on fn.flow_id = f.id
         where fn.id = #{flowNodeId};
 ```
+
+selectFlowByTypeId
+===
+```sql
+    select * 
+    from flow 
+    where flow_type_id = #{flowTypeId}
+    and delete_flag = 1
+```

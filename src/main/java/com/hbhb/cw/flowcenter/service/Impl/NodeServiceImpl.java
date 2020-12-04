@@ -2,12 +2,16 @@ package com.hbhb.cw.flowcenter.service.Impl;
 
 import com.hbhb.cw.flowcenter.mapper.NodeMapper;
 import com.hbhb.cw.flowcenter.service.NodeService;
+import com.hbhb.cw.flowcenter.vo.FlowNodePropVO;
 import com.hbhb.cw.flowcenter.vo.SelectVO;
-import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import java.util.List;
+
+import javax.annotation.Resource;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author wangxiaogang
@@ -26,5 +30,10 @@ public class NodeServiceImpl implements NodeService {
     @Override
     public int countFlowNode(Long id) {
         return nodeMapper.countByFlowId(id);
+    }
+
+    @Override
+    public List<FlowNodePropVO> getFlowProp(Long id) {
+        return nodeMapper.selectFlowNodePropById(id);
     }
 }
