@@ -21,4 +21,10 @@ public class RoleUserServiceImpl implements RoleUserService {
     public List<Integer> getUserId(String roleName) {
         return roleUserMapper.selectRoleUserIdByRoleName(roleName);
     }
+
+    @Override
+    public List<Long> getFlowRoleIdByUserId(Integer userId) {
+        return roleUserMapper.selectFlowRoleByUserId(userId);
+    }
+
 }
