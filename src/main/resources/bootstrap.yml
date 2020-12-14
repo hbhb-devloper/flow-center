@@ -47,10 +47,10 @@ host:
 
 port:
   default: 10079
-  dev: 10018
-  dev-proxy: 10032
-  test: 10019
-  test-proxy: 10033
+  dev: 10032
+  dev-proxy: 10018
+  test: 10033
+  test-proxy: 10019
   prd: 10015
 
 # 指定服务提供方实例地址（为空则不指定）
