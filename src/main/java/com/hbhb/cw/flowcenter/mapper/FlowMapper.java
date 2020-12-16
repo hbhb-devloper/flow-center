@@ -17,5 +17,5 @@ public interface FlowMapper extends BaseMapper<Flow> {
 
     PageResult<FlowStatisticsResVO> selectInfoPageByCond(Integer unitId, Long flowId, PageRequest request);
 
-    String selectNameByNodeId(String flowNodeId);
+    String selectNameByNodeId(String nodeId);
 }

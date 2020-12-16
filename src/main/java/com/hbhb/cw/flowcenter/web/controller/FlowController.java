@@ -44,7 +44,7 @@ public class FlowController implements FlowApi {
     @Resource
     private FlowService flowService;
 
-    @Operation(summary = "获取流程列表（分页）", description = "新版本 nickName -> userName")
+    @Operation(summary = "获取流程列表（分页） | 新版本 nickName -> userName")
     @GetMapping("/list")
     public PageResult<FlowResVO> pageFlow(
             @Parameter(description = "页码，默认为1") @RequestParam(required = false) Integer pageNum,
@@ -68,7 +68,7 @@ public class FlowController implements FlowApi {
         return flowService.pageFlowInfo(pageNum, pageSize, unitId, flowId);
     }
 
-    @Operation(summary = "获取流程详情", description = "新版本 出参结构")
+    @Operation(summary = "获取流程详情 | 新版本 出参结构")
     @GetMapping("/{flowId}")
     public FlowVO getFlowInfo(@Parameter(description = "流程id", required = true) @PathVariable Long flowId) {
         return flowService.getFlowInfo(flowId);
@@ -106,7 +106,7 @@ public class FlowController implements FlowApi {
         flowService.saveFlowProjectInfo(vo);
     }
 
-    @Operation(summary = "流程名称列表", description = "新版本 /name -> /select")
+    @Operation(summary = "流程名称列表 | 新版本 /name -> /select")
     @GetMapping("/select")
     public List<SelectVO> getFlowNameList() {
         return flowService.getFlowNameList();

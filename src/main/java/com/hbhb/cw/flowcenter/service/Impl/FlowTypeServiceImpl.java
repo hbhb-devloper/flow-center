@@ -9,6 +9,7 @@ import com.hbhb.cw.systemcenter.enums.TypeCode;
 import com.hbhb.cw.systemcenter.vo.DictVO;
 
 import org.beetl.sql.core.page.PageResult;
+import org.beetl.sql.core.query.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -37,7 +38,7 @@ public class FlowTypeServiceImpl implements FlowTypeService {
     @Override
     public PageResult<FlowType> pageFlowType(Integer pageNum, Integer pageSize, String flowTypeName) {
         PageResult<FlowType> page = flowTypeMapper.createLambdaQuery()
-                .andLike(FlowType::getFlowTypeName, flowTypeName)
+                .andLike(FlowType::getFlowTypeName, Query.filterEmpty(flowTypeName))
                 .asc(FlowType::getSortNum)
                 .page(pageNum, pageSize);
 
@@ -55,7 +56,7 @@ public class FlowTypeServiceImpl implements FlowTypeService {
     @Override
     public List<SelectVO> getListByModule(String module) {
         List<FlowType> flowTypes = flowTypeMapper.createLambdaQuery()
-                .andEq(FlowType::getModule, module)
+                .andEq(FlowType::getModule, Query.filterEmpty(module))
                 .select();
         return Optional.ofNullable(flowTypes)
                 .orElse(new ArrayList<>())

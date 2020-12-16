@@ -31,7 +31,7 @@ public class FlowNodePropController implements FlowNodePropApi {
     @Resource
     private FlowNodePropService flowNodePropService;
 
-    @Operation(summary = "获取节点属性详情", description = "新版本 /info/{flowNodeId} -> /info")
+    @Operation(summary = "获取节点属性详情 | 新版本 /info/{flowNodeId} -> /info")
     @GetMapping("/info")
     public FlowNodePropVO getFlowNodeProp(
             @Parameter(description = "流程节点id") @RequestParam String flowNodeId) {
@@ -45,7 +45,7 @@ public class FlowNodePropController implements FlowNodePropApi {
         flowNodePropService.addNodeProp(vo, userId);
     }
 
-    @Operation(summary = "修改节点属性", description = "新版本 /update -> /")
+    @Operation(summary = "修改节点属性 | 新版本 /update -> /")
     @PutMapping("")
     public void updateFlowProp(@Parameter(description = "节点属性vo") @RequestBody FlowNodePropVO vo) {
         flowNodePropService.updateNodeProp(vo);
