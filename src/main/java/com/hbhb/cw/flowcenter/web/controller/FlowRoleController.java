@@ -44,7 +44,7 @@ public class FlowRoleController {
         return flowRoleService.pageFlowRole(pageNum, pageSize);
     }
 
-    @Operation(summary = "流程角色库列表", description = "新版本 list/select -> /select")
+    @Operation(summary = "流程角色库列表 | 新版本 list/select -> /select")
     @GetMapping("/select")
     public List<FlowRoleVO> getAllFlowRoleList() {
         return flowRoleService.getAllFlowRoleList();
@@ -62,7 +62,7 @@ public class FlowRoleController {
         flowRoleService.upsertFlowRole(vo);
     }
 
-    @Operation(summary = "删除流程角色", description = "新版本 /{flowRoleId} -> /{id}")
+    @Operation(summary = "删除流程角色 | 新版本 /{flowRoleId} -> /{id}")
     @DeleteMapping("/{id}")
     public void deleteFlowRole(
             @Parameter(description = "流程角色id") @PathVariable(required = false) Long id) {

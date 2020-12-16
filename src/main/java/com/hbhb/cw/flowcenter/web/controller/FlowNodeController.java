@@ -33,7 +33,7 @@ public class FlowNodeController implements FlowNodeApi {
     @Resource
     private FlowNodeService flowNodeService;
 
-    @Operation(summary = "（分页）获取流程节点列表", description = "新版本 该接口用于何处")
+    @Operation(summary = "（分页）获取流程节点列表 | 新版本 该接口用于何处？")
     @GetMapping("/list")
     public PageResult<FlowNodeVO> pageFlowNode(
             @Parameter(description = "页码，默认为1") @RequestParam(required = false) Integer pageNum,
@@ -43,13 +43,13 @@ public class FlowNodeController implements FlowNodeApi {
         return flowNodeService.pageFlowNode(pageNum, pageSize);
     }
 
-    @Operation(summary = "删除流程节点", description = "新版本 /delete/{id} -> /{id}")
+    @Operation(summary = "删除流程节点 | 新版本 /delete/{id} -> /{id}")
     @DeleteMapping("/{id}")
     public void deleteFlowNode(@Parameter(description = "节点id") @PathVariable String id) {
         flowNodeService.deleteFlowNode(id);
     }
 
-    @Operation(summary = "删除节点链接线", description = "新版本 /delete/line -> /line")
+    @Operation(summary = "删除节点链接线 | 新版本 /delete/line -> /line")
     @DeleteMapping("/line")
     public void deleteFlowNodeLine(
             @Parameter(description = "开始节点id", required = true) @RequestParam String fromNodeId,
@@ -58,7 +58,7 @@ public class FlowNodeController implements FlowNodeApi {
         flowNodeService.deleteNodeLine(flowLine.getId());
     }
 
-    @Operation(summary = "流程节点名称列表", description = "新版本 /name/{flowId} -> /select")
+    @Operation(summary = "流程节点名称列表 | 新版本 /name/{flowId} -> /select")
     @GetMapping("/select")
     public List<SelectVO> getFlowNodeName(@Parameter(description = "流程id") @RequestParam Long flowId) {
         return flowNodeService.getNodeMap(flowId);

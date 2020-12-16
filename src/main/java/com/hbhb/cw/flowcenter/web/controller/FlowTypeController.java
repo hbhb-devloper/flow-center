@@ -72,7 +72,7 @@ public class FlowTypeController implements FlowTypeApi {
         flowTypeService.upsertFlowType(flowType);
     }
 
-    @Operation(summary = "删除流程类型", description = "新版本 /{flowTypeId} -> /{id}")
+    @Operation(summary = "删除流程类型 | 新版本 /{flowTypeId} -> /{id}")
     @DeleteMapping("/{id}")
     public void deleteFlowType(
             @Parameter(description = "流程类型id") @PathVariable(required = false) Long id) {
