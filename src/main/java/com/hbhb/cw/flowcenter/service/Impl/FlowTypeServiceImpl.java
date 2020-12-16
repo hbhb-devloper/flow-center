@@ -1,5 +1,6 @@
 package com.hbhb.cw.flowcenter.service.Impl;
 
+import com.hbhb.beetlsql.core.QueryExt;
 import com.hbhb.core.bean.SelectVO;
 import com.hbhb.cw.flowcenter.mapper.FlowTypeMapper;
 import com.hbhb.cw.flowcenter.model.FlowType;
@@ -38,7 +39,7 @@ public class FlowTypeServiceImpl implements FlowTypeService {
     @Override
     public PageResult<FlowType> pageFlowType(Integer pageNum, Integer pageSize, String flowTypeName) {
         PageResult<FlowType> page = flowTypeMapper.createLambdaQuery()
-                .andLike(FlowType::getFlowTypeName, Query.filterEmpty(flowTypeName))
+                .andLike(FlowType::getFlowTypeName, QueryExt.filterLikeEmpty(flowTypeName))
                 .asc(FlowType::getSortNum)
                 .page(pageNum, pageSize);
 
