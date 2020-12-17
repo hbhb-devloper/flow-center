@@ -26,6 +26,7 @@ import com.hbhb.cw.flowcenter.web.vo.FlowVO;
 import org.beetl.sql.core.page.DefaultPageRequest;
 import org.beetl.sql.core.page.PageRequest;
 import org.beetl.sql.core.page.PageResult;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
@@ -59,6 +60,9 @@ public class FlowServiceImpl implements FlowService {
     private FlowNodePropMapper flowNodePropMapper;
     @Resource
     private FlowNodeNoticeMapper flowNodeNoticeMapper;
+
+    @Resource
+    private JdbcTemplate jdbcTemplate;
 
     @Override
     public PageResult<FlowResVO> pageFlow(Integer pageNum, Integer pageSize,
@@ -272,13 +276,36 @@ public class FlowServiceImpl implements FlowService {
             // 先删除
             flowNodeMapper.createLambdaQuery().andIn(FlowNode::getId, flowNodeIds).delete();
             // 再保存
-            flowNodeMapper.insertBatch(flowNodes);
+            // 此处由于节点表的id在设计之初为非自增主键，不符合beetlsql的要求，无法直接使用mapper接口
+            // 有三种方案：
+            // 1.最直接的做法，修改数据库表字段名，但重构工作量大
+            // 2.使用beetlsql的SQLManager.executeBatchUpdate，需要在BaseMapper中定义新的方法，可行但较为麻烦
+            // 3.使用原生jdbc，最简单
+            String sql = "insert into flow_node (id,flow_id,node_type,node_name,p_left,p_top,ico,state,sort_num) values (?,?,?,?,?,?,?,?,?)";
+            jdbcTemplate.batchUpdate(sql, flowNodes, 1, (ps, argument) -> {
+                ps.setString(1, argument.getId());
+                ps.setLong(2, argument.getFlowId());
+                ps.setString(3, argument.getNodeType());
+                ps.setString(4, argument.getNodeName());
+                ps.setString(5, argument.getPLeft());
+                ps.setString(6, argument.getPTop());
+                ps.setString(7, argument.getIco());
+                ps.setString(8, argument.getState());
+                ps.setInt(9, argument.getSortNum());
+            });
         }
         if (!CollectionUtils.isEmpty(flowLines)) {
             // 先删除
             flowLineMapper.createLambdaQuery().andIn(FlowLine::getId, flowLineIds).delete();
             // 再保存
-            flowLineMapper.insertBatch(flowLines);
+            String sql = "insert into flow_line (id,flow_id,from_node_id,to_node_id,label) values (?,?,?,?,?)";
+            jdbcTemplate.batchUpdate(sql, flowLines, 1, (ps, argument) -> {
+                ps.setString(1, argument.getId());
+                ps.setLong(2, argument.getFlowId());
+                ps.setString(3, argument.getFromNodeId());
+                ps.setString(4, argument.getToNodeId());
+                ps.setString(5, argument.getLabel());
+            });
         }
     }
 
