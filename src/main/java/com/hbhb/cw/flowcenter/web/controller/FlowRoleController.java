@@ -1,5 +1,6 @@
 package com.hbhb.cw.flowcenter.web.controller;
 
+import com.hbhb.core.bean.SelectVO;
 import com.hbhb.cw.flowcenter.model.FlowRole;
 import com.hbhb.cw.flowcenter.service.FlowRoleService;
 import com.hbhb.cw.flowcenter.vo.FlowRoleVO;
@@ -44,9 +45,9 @@ public class FlowRoleController {
         return flowRoleService.pageFlowRole(pageNum, pageSize);
     }
 
-    @Operation(summary = "流程角色库列表 | 新版本 list/select -> /select")
+    @Operation(summary = "流程角色库列表")
     @GetMapping("/select")
-    public List<FlowRoleVO> getAllFlowRoleList() {
+    public List<SelectVO> getAllFlowRoleList() {
         return flowRoleService.getAllFlowRoleList();
     }
 
@@ -62,34 +63,10 @@ public class FlowRoleController {
         flowRoleService.upsertFlowRole(vo);
     }
 
-    @Operation(summary = "删除流程角色 | 新版本 /{flowRoleId} -> /{id}")
+    @Operation(summary = "删除流程角色")
     @DeleteMapping("/{id}")
     public void deleteFlowRole(
             @Parameter(description = "流程角色id") @PathVariable(required = false) Long id) {
         flowRoleService.deleteFlowRole(id);
     }
-
-
-    // todo 该接口没有用到
-//    @ApiOperation(value = "流程角色详情")
-//    @GetMapping("info/select")
-//    public List<FlowRoleResVO> getFlowRoleInfoList(
-//            @ApiParam(value = "流程角色实体") FlowRoleCondVO flowRoleCondVO) {
-//        return flowRoleService.getFlowRoleInfoList(flowRoleCondVO);
-//    }
-
-    // todo 该接口没有用到
-//    @Operation(summary = "通过角色得到用户列表")
-//    @GetMapping("/user")
-//    public List<SelectVO> getUserByFlowRoleId(FlowRoleCondVO cond) {
-//        return flowRoleUserService.getUserByFlowRoleId(cond);
-//    }
-
-    // todo 该接口没有用到
-//    @Operation(summary = "通过角色得到参与流程列表")
-//    @GetMapping("/flow/{flowRoleId}")
-//    public List<SelectVO> getFlowByFlowRoleId(
-//            @Parameter(description = "流程角色id") @PathVariable(required = false) Long flowRoleId) {
-//        return flowRoleService.getFlowByFlowRoleId(flowRoleId);
-//    }
 }

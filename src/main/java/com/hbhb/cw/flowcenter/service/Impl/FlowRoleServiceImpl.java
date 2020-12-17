@@ -1,6 +1,7 @@
 package com.hbhb.cw.flowcenter.service.Impl;
 
 import com.hbhb.core.bean.BeanConverter;
+import com.hbhb.core.bean.SelectVO;
 import com.hbhb.cw.flowcenter.enums.code.FlowErrorCode;
 import com.hbhb.cw.flowcenter.exception.FlowException;
 import com.hbhb.cw.flowcenter.mapper.FlowNodePropMapper;
@@ -16,7 +17,10 @@ import org.beetl.sql.core.page.PageResult;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
 
@@ -41,11 +45,18 @@ public class FlowRoleServiceImpl implements FlowRoleService {
     }
 
     @Override
-    public List<FlowRoleVO> getAllFlowRoleList() {
+    public List<SelectVO> getAllFlowRoleList() {
         List<FlowRole> list = flowRoleMapper.createLambdaQuery()
                 .asc(FlowRole::getSortNum)
                 .select();
-        return BeanConverter.copyBeanList(list, FlowRoleVO.class);
+        return Optional.ofNullable(list)
+                .orElse(new ArrayList<>())
+                .stream()
+                .map(flowRole -> SelectVO.builder()
+                        .id(flowRole.getId())
+                        .label(flowRole.getRoleName())
+                        .build())
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -56,11 +67,21 @@ public class FlowRoleServiceImpl implements FlowRoleService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void deleteFlowRole(Long id) {
-        // 判断该角色在流程节点属性表中是否被使用
-        long count = flowNodePropMapper.createLambdaQuery()
-                .andEq(FlowNodeProp::getFlowRoleId, id)
+        // 判断该流程角色是否被使用
+        // 1.是否在角色用户关联表中使用
+        long count1 = flowRoleUserMapper.createLambdaQuery()
+                .andEq(FlowRoleUser::getFlowRoleId, id)
                 .count();
-        if (count > 0) {
+        if (count1 > 0) {
+            throw new FlowException(FlowErrorCode.FLOW_ROLE_IS_IN_USE);
+        }
+        // 2.是否在节点属性表中使用
+        FlowRole flowRole = flowRoleMapper.single(id);
+        long count2 = flowNodePropMapper.createLambdaQuery()
+                .andEq(FlowNodeProp::getFlowRoleId, id)
+                .andEq(FlowNodeProp::getRoleDesc, flowRole.getRoleName())
+                .count();
+        if (count2 > 0) {
             throw new FlowException(FlowErrorCode.FLOW_ROLE_IS_IN_USE);
         }
         // 删除主表
@@ -70,14 +91,4 @@ public class FlowRoleServiceImpl implements FlowRoleService {
                 .andEq(FlowRoleUser::getFlowRoleId, id)
                 .delete();
     }
-
-//    @Override
-//    public List<SelectVO> getFlowByFlowRoleId(Long flowRoleId) {
-//        return flowRoleMapper.selectFlowByFlowRoleId(flowRoleId);
-//    }
-
-//    @Override
-//    public List<String> getFlowRoleName(List<Long> roleIds) {
-//        return flowRoleMapper.selectRoleNameByRoleId(roleIds);
-//    }
 }

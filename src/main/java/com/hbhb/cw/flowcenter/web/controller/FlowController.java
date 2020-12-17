@@ -1,15 +1,11 @@
 package com.hbhb.cw.flowcenter.web.controller;
 
 import com.hbhb.core.bean.SelectVO;
-import com.hbhb.core.utils.ExcelUtil;
 import com.hbhb.cw.flowcenter.api.FlowApi;
 import com.hbhb.cw.flowcenter.model.Flow;
 import com.hbhb.cw.flowcenter.service.FlowService;
-import com.hbhb.cw.flowcenter.web.vo.FlowExportReqVO;
-import com.hbhb.cw.flowcenter.web.vo.FlowExportVO;
 import com.hbhb.cw.flowcenter.web.vo.FlowProjectVO;
 import com.hbhb.cw.flowcenter.web.vo.FlowResVO;
-import com.hbhb.cw.flowcenter.web.vo.FlowStatisticsResVO;
 import com.hbhb.cw.flowcenter.web.vo.FlowVO;
 
 import org.beetl.sql.core.page.PageResult;
@@ -26,8 +22,6 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -44,7 +38,7 @@ public class FlowController implements FlowApi {
     @Resource
     private FlowService flowService;
 
-    @Operation(summary = "获取流程列表（分页） | 新版本 nickName -> userName")
+    @Operation(summary = "获取流程列表（分页）")
     @GetMapping("/list")
     public PageResult<FlowResVO> pageFlow(
             @Parameter(description = "页码，默认为1") @RequestParam(required = false) Integer pageNum,
@@ -56,19 +50,7 @@ public class FlowController implements FlowApi {
         return flowService.pageFlow(pageNum, pageSize, flowName, flowTypeId);
     }
 
-    @Operation(summary = "获取流程节点列表（分页）")
-    @GetMapping("/info/list")
-    public PageResult<FlowStatisticsResVO> getFlowInfoList(
-            @Parameter(description = "页码，默认为1") @RequestParam(required = false) Integer pageNum,
-            @Parameter(description = "每页数量，默认为10") @RequestParam(required = false) Integer pageSize,
-            @Parameter(description = "单位名称") @RequestParam(required = false) Integer unitId,
-            @Parameter(description = "流程id") @RequestParam(required = false) Long flowId) {
-        pageNum = pageNum == null ? 1 : pageNum;
-        pageSize = pageSize == null ? 10 : pageSize;
-        return flowService.pageFlowInfo(pageNum, pageSize, unitId, flowId);
-    }
-
-    @Operation(summary = "获取流程详情 | 新版本 出参结构")
+    @Operation(summary = "获取流程详情")
     @GetMapping("/{flowId}")
     public FlowVO getFlowInfo(@Parameter(description = "流程id", required = true) @PathVariable Long flowId) {
         return flowService.getFlowInfo(flowId);
@@ -92,33 +74,24 @@ public class FlowController implements FlowApi {
         flowService.deleteFlow(flowId);
     }
 
-    @Operation(summary = "获取流程项目详情")
-    @GetMapping("/project/{flowId}")
+    @Operation(summary = "获取流程图")
+    @GetMapping("/vfd/{flowId}")
     public FlowProjectVO getFlowProjectInfo(
             @Parameter(description = "流程id", required = true) @PathVariable Long flowId) {
         return flowService.getFlowProjectInfo(flowId);
     }
 
-    @Operation(summary = "保存流程项目详情")
-    @PostMapping("/project")
+    @Operation(summary = "保存流程图")
+    @PostMapping("/vfd")
     public void saveFlowProjectInfo(
             @Parameter(description = "流程项目详情", required = true) @RequestBody FlowProjectVO vo) {
         flowService.saveFlowProjectInfo(vo);
     }
 
-    @Operation(summary = "流程名称列表 | 新版本 /name -> /select")
+    @Operation(summary = "流程名称列表")
     @GetMapping("/select")
     public List<SelectVO> getFlowNameList() {
         return flowService.getFlowNameList();
-    }
-
-    @Operation(summary = "流程查询导出")
-    @PostMapping("/export")
-    public void export(HttpServletRequest request, HttpServletResponse response,
-                       @RequestBody FlowExportReqVO vo) {
-        List<FlowExportVO> list = flowService.getExportList(vo.getUnitId(), vo.getFlowId());
-        String fileName = ExcelUtil.encodingFileName(request, "流程节点列表");
-        ExcelUtil.export2Web(response, fileName, fileName, FlowExportVO.class, list);
     }
 
     @Operation(summary = "按id获取流程详情")

@@ -1,10 +1,12 @@
 package com.hbhb.cw.flowcenter.service.Impl;
 
 import com.hbhb.core.bean.BeanConverter;
+import com.hbhb.core.bean.SelectVO;
 import com.hbhb.cw.flowcenter.mapper.FlowRoleMapper;
 import com.hbhb.cw.flowcenter.mapper.FlowRoleUserMapper;
 import com.hbhb.cw.flowcenter.model.FlowRole;
 import com.hbhb.cw.flowcenter.model.FlowRoleUser;
+import com.hbhb.cw.flowcenter.rpc.UnitApiExp;
 import com.hbhb.cw.flowcenter.service.FlowRoleUserService;
 import com.hbhb.cw.flowcenter.web.vo.FlowRoleExportVO;
 import com.hbhb.cw.flowcenter.web.vo.FlowRoleUserReqVO;
@@ -37,12 +39,20 @@ public class FlowRoleUserServiceImpl implements FlowRoleUserService {
     private FlowRoleMapper flowRoleMapper;
     @Resource
     private FlowRoleUserMapper flowRoleUserMapper;
+    @Resource
+    private UnitApiExp unitApi;
 
     @Override
     public PageResult<FlowRoleUserVO> pageFlowRoleUser(FlowRoleUserReqVO cond,
                                                        Integer pageNum, Integer pageSize) {
         PageRequest request = DefaultPageRequest.of(pageNum, pageSize);
         return flowRoleUserMapper.selectPageByCond(cond, request);
+    }
+
+    @Override
+    public List<SelectVO> getUserByRoleInUnit(Integer unitId, Long flowRoleId) {
+        List<Integer> unitIds = unitApi.getSubUnit(unitId);
+        return flowRoleUserMapper.selectUserByRoleInUnit(unitIds, flowRoleId);
     }
 
     @Override

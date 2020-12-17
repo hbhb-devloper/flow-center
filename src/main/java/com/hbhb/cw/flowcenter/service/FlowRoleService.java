@@ -1,5 +1,6 @@
 package com.hbhb.cw.flowcenter.service;
 
+import com.hbhb.core.bean.SelectVO;
 import com.hbhb.cw.flowcenter.model.FlowRole;
 import com.hbhb.cw.flowcenter.vo.FlowRoleVO;
 
@@ -20,7 +21,7 @@ public interface FlowRoleService {
     /**
      * 获取所有角色列表
      */
-    List<FlowRoleVO> getAllFlowRoleList();
+    List<SelectVO> getAllFlowRoleList();
 
     /**
      * 新增流程角色
@@ -31,15 +32,4 @@ public interface FlowRoleService {
      * 通过id删除流程角色
      */
     void deleteFlowRole(Long id);
-
-//    /**
-//     * 通过角色得到该角色参与的流程
-//     */
-//    List<SelectVO> getFlowByFlowRoleId(Long flowRoleId);
-
-//    /**
-//     * 通过角色id获取角色名称
-//     */
-//    List<String> getFlowRoleName(List<Long> roleIds);
-
 }

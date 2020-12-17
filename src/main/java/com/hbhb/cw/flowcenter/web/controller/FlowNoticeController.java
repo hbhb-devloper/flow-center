@@ -34,8 +34,8 @@ public class FlowNoticeController {
         return flowNoticeService.getNoticeList();
     }
 
-    @Operation(summary = "流程提醒详情")
-    @GetMapping("/info/{id}")
+    @Operation(summary = "流程提醒详情 | 新版本 /info/{id} -> /{id}")
+    @GetMapping("/{id}")
     public FlowNoticeVO getFlowRemind(@Parameter(description = "主键id") @PathVariable Long id) {
         return flowNoticeService.getNoticeInfo(id);
     }
@@ -47,7 +47,7 @@ public class FlowNoticeController {
     }
 
     @Operation(summary = "修改提醒")
-    @PutMapping("/update")
+    @PutMapping("")
     public void updateFlowRemind(@Parameter(description = "流程提醒实体") @RequestBody FlowNoticeVO vo) {
         flowNoticeService.upsertNotice(vo);
     }

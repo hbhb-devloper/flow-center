@@ -1,5 +1,6 @@
 package com.hbhb.cw.flowcenter.service;
 
+import com.hbhb.core.bean.SelectVO;
 import com.hbhb.cw.flowcenter.web.vo.FlowRoleExportVO;
 import com.hbhb.cw.flowcenter.web.vo.FlowRoleUserReqVO;
 import com.hbhb.cw.flowcenter.web.vo.FlowRoleUserVO;
@@ -17,6 +18,11 @@ public interface FlowRoleUserService {
      * 分页获取流程角色用户
      */
     PageResult<FlowRoleUserVO> pageFlowRoleUser(FlowRoleUserReqVO cond, Integer pageNum, Integer pageSize);
+
+    /**
+     * 按单位id和流程角色id查询用户列表
+     */
+    List<SelectVO> getUserByRoleInUnit(Integer unitId, Long flowRoleId);
 
     /**
      * 更新流程角色用户

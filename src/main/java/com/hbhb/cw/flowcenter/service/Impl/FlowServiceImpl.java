@@ -16,20 +16,12 @@ import com.hbhb.cw.flowcenter.model.FlowNode;
 import com.hbhb.cw.flowcenter.model.FlowNodeNotice;
 import com.hbhb.cw.flowcenter.model.FlowNodeProp;
 import com.hbhb.cw.flowcenter.model.FlowUnit;
-import com.hbhb.cw.flowcenter.rpc.DictApiExp;
-import com.hbhb.cw.flowcenter.rpc.UnitApiExp;
-import com.hbhb.cw.flowcenter.rpc.UserApiExp;
 import com.hbhb.cw.flowcenter.service.FlowService;
-import com.hbhb.cw.flowcenter.web.vo.FlowExportVO;
 import com.hbhb.cw.flowcenter.web.vo.FlowLineVO;
 import com.hbhb.cw.flowcenter.web.vo.FlowNodeVO;
 import com.hbhb.cw.flowcenter.web.vo.FlowProjectVO;
 import com.hbhb.cw.flowcenter.web.vo.FlowResVO;
-import com.hbhb.cw.flowcenter.web.vo.FlowStatisticsResVO;
 import com.hbhb.cw.flowcenter.web.vo.FlowVO;
-import com.hbhb.cw.systemcenter.enums.DictCode;
-import com.hbhb.cw.systemcenter.enums.TypeCode;
-import com.hbhb.cw.systemcenter.vo.DictVO;
 
 import org.beetl.sql.core.page.DefaultPageRequest;
 import org.beetl.sql.core.page.PageRequest;
@@ -40,7 +32,6 @@ import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -68,49 +59,12 @@ public class FlowServiceImpl implements FlowService {
     private FlowNodePropMapper flowNodePropMapper;
     @Resource
     private FlowNodeNoticeMapper flowNodeNoticeMapper;
-    @Resource
-    private DictApiExp dictApi;
-    @Resource
-    private UnitApiExp unitApi;
-    @Resource
-    private UserApiExp userApi;
 
     @Override
     public PageResult<FlowResVO> pageFlow(Integer pageNum, Integer pageSize,
                                           String flowName, Long flowTypeId) {
         PageRequest request = DefaultPageRequest.of(pageNum, pageSize);
         return flowMapper.selectPageByCond(flowName, flowTypeId, request);
-    }
-
-    @Override
-    public PageResult<FlowStatisticsResVO> pageFlowInfo(Integer pageNum, Integer pageSize,
-                                                        Integer unitId, Long flowId) {
-        PageRequest request = DefaultPageRequest.of(pageNum, pageSize);
-        PageResult<FlowStatisticsResVO> pageResult = flowMapper.selectInfoPageByCond(unitId, flowId, request);
-
-        // 数据处理
-        List<FlowStatisticsResVO> list = pageResult.getList();
-        if (!CollectionUtils.isEmpty(list)) {
-            // 字典
-            List<DictVO> dictList = dictApi.getDict(
-                    TypeCode.FLOW.value(), DictCode.FLOW_NODE_PROP_ENABLE_COND.value());
-            Map<String, String> dictMap = dictList.stream().collect(
-                    Collectors.toMap(DictVO::getValue, DictVO::getLabel));
-            // 单位
-            Map<Integer, String> unitMap = unitApi.getUnitMapById();
-            // 用户
-            List<Integer> userIds = list.stream().map(FlowStatisticsResVO::getUserId).collect(Collectors.toList());
-            Map<Integer, String> userMap = userApi.getUserMapById(userIds);
-
-            list.forEach(vo -> {
-                vo.setUnitName(unitMap.get(vo.getUnitId()));
-                vo.setRoleRange(unitMap.get(vo.getRoleRangeId()));
-                vo.setUserName(userMap.get(vo.getUserId()));
-                vo.setEnableCond(dictMap.get(vo.getEnableCond()));
-            });
-        }
-
-        return pageResult;
     }
 
     @Override
@@ -133,12 +87,14 @@ public class FlowServiceImpl implements FlowService {
             throw new FlowException(FlowErrorCode.FLOW_UNIT_NULL_ERROR);
         }
         // 新增主表数据
-        flowMapper.insertTemplate(BeanConverter.convert(vo, Flow.class));
+        Flow flow = new Flow();
+        BeanConverter.copyProp(vo, flow);
+        flowMapper.insertTemplate(flow);
         // 新增关联数据
         flowUnitMapper.insertBatch(
                 unitIds.stream().map(unitId -> FlowUnit.builder()
                         .unitId(unitId)
-                        .flowId(vo.getId())
+                        .flowId(flow.getId())
                         .build()).collect(Collectors.toList()));
     }
 
@@ -151,7 +107,9 @@ public class FlowServiceImpl implements FlowService {
             throw new FlowException(FlowErrorCode.FLOW_UNIT_NULL_ERROR);
         }
         // 修改主表数据
-        flowMapper.updateTemplateById(BeanConverter.convert(vo, Flow.class));
+        Flow flow = new Flow();
+        BeanConverter.copyProp(vo, flow);
+        flowMapper.updateTemplateById(flow);
         // 先删除关联数据
         flowUnitMapper.createLambdaQuery()
                 .andEq(FlowUnit::getFlowId, vo.getId())
@@ -161,19 +119,13 @@ public class FlowServiceImpl implements FlowService {
         flowUnitMapper.insertBatch(
                 unitIds.stream().map(unitId -> FlowUnit.builder()
                         .unitId(unitId)
-                        .flowId(vo.getId())
+                        .flowId(flow.getId())
                         .build()).collect(Collectors.toList()));
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void deleteFlow(Long flowId) {
-        // todo 需要各模块api
-//        // 判断该流程是否被使用中
-//        boolean flag = budgetProjectService.isUseFlowId(flowId);
-//        if (flag) {
-//            throw new FlowException(FlowErrorCode.FLOW_IS_IN_USE);
-//        }
         Flow flow = new Flow();
         flow.setId(flowId);
         flow.setDeleteFlag(0);
@@ -182,12 +134,6 @@ public class FlowServiceImpl implements FlowService {
 
     @Override
     public void removeFlow(Long flowId) {
-//        // 判断该流程是否被使用中
-//        boolean flag = budgetProjectService.isUseFlowId(flowId);
-//        if (flag) {
-//            throw new FlowException(FlowErrorCode.FLOW_IS_IN_USE);
-//        }
-
         // 删除流程
         flowMapper.deleteById(flowId);
 
@@ -348,18 +294,6 @@ public class FlowServiceImpl implements FlowService {
                         .id(flow.getId())
                         .label(flow.getFlowName())
                         .build())
-                .collect(Collectors.toList());
-    }
-
-    @Override
-    public List<FlowExportVO> getExportList(Integer unitId, Long flowId) {
-        PageResult<FlowStatisticsResVO> pageResult = this.pageFlowInfo(
-                1, Integer.MAX_VALUE, unitId, flowId);
-        if (CollectionUtils.isEmpty(pageResult.getList())) {
-            return new ArrayList<>();
-        }
-        return pageResult.getList().stream()
-                .map(vo -> BeanConverter.convert(vo, FlowExportVO.class))
                 .collect(Collectors.toList());
     }
 

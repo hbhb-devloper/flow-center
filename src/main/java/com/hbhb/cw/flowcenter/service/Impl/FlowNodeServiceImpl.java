@@ -1,5 +1,6 @@
 package com.hbhb.cw.flowcenter.service.Impl;
 
+import com.hbhb.core.bean.BeanConverter;
 import com.hbhb.core.bean.SelectVO;
 import com.hbhb.cw.flowcenter.mapper.FlowLineMapper;
 import com.hbhb.cw.flowcenter.mapper.FlowNodeMapper;
@@ -7,15 +8,25 @@ import com.hbhb.cw.flowcenter.mapper.FlowNodePropMapper;
 import com.hbhb.cw.flowcenter.model.FlowLine;
 import com.hbhb.cw.flowcenter.model.FlowNode;
 import com.hbhb.cw.flowcenter.model.FlowNodeProp;
+import com.hbhb.cw.flowcenter.rpc.DictApiExp;
+import com.hbhb.cw.flowcenter.rpc.UnitApiExp;
 import com.hbhb.cw.flowcenter.service.FlowNodeService;
-import com.hbhb.cw.flowcenter.web.vo.FlowNodeVO;
+import com.hbhb.cw.flowcenter.web.vo.FlowExportVO;
+import com.hbhb.cw.flowcenter.web.vo.FlowNodeResVO;
+import com.hbhb.cw.systemcenter.enums.DictCode;
+import com.hbhb.cw.systemcenter.enums.TypeCode;
+import com.hbhb.cw.systemcenter.vo.DictVO;
 
+import org.beetl.sql.core.page.DefaultPageRequest;
+import org.beetl.sql.core.page.PageRequest;
 import org.beetl.sql.core.page.PageResult;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -28,7 +39,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Service
 @Slf4j
-@SuppressWarnings(value = {"unchecked"})
+@SuppressWarnings(value = {"unchecked", "rawtypes"})
 public class FlowNodeServiceImpl implements FlowNodeService {
 
     @Resource
@@ -37,10 +48,35 @@ public class FlowNodeServiceImpl implements FlowNodeService {
     private FlowLineMapper flowLineMapper;
     @Resource
     private FlowNodePropMapper flowNodePropMapper;
+    @Resource
+    private DictApiExp dictApi;
+    @Resource
+    private UnitApiExp unitApi;
 
     @Override
-    public PageResult<FlowNodeVO> pageFlowNode(Integer pageNum, Integer pageSize) {
-        return flowNodeMapper.createLambdaQuery().page(pageNum, pageSize, FlowNodeVO.class);
+    public PageResult<FlowNodeResVO> pageFlowNode(Integer pageNum, Integer pageSize,
+                                                  Integer unitId, Long flowId) {
+        PageRequest request = DefaultPageRequest.of(pageNum, pageSize);
+        PageResult<FlowNodeResVO> pageResult = flowNodeMapper.selectPageByCond(unitId, flowId, request);
+
+        // 数据处理
+        List<FlowNodeResVO> list = pageResult.getList();
+        if (!CollectionUtils.isEmpty(list)) {
+            // 字典
+            List<DictVO> dictList = dictApi.getDict(
+                    TypeCode.FLOW.value(), DictCode.FLOW_NODE_PROP_ENABLE_COND.value());
+            Map<String, String> dictMap = dictList.stream().collect(
+                    Collectors.toMap(DictVO::getValue, DictVO::getLabel));
+            // 单位
+            Map<Integer, String> unitMap = unitApi.getUnitMapById();
+
+            list.forEach(vo -> {
+                vo.setUnitName(unitMap.get(vo.getUnitId()));
+                vo.setRoleRange(unitMap.get(vo.getRoleRangeId()));
+                vo.setEnableCond(dictMap.get(vo.getEnableCond()));
+            });
+        }
+        return pageResult;
     }
 
     @Override
@@ -77,6 +113,18 @@ public class FlowNodeServiceImpl implements FlowNodeService {
                         .id(flowNode.getFlowId())
                         .label(flowNode.getNodeName())
                         .build())
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<FlowExportVO> getExportList(Integer unitId, Long flowId) {
+        PageResult<FlowNodeResVO> pageResult = this.pageFlowNode(
+                1, Integer.MAX_VALUE, unitId, flowId);
+        if (CollectionUtils.isEmpty(pageResult.getList())) {
+            return new ArrayList<>();
+        }
+        return pageResult.getList().stream()
+                .map(vo -> BeanConverter.convert(vo, FlowExportVO.class))
                 .collect(Collectors.toList());
     }
 

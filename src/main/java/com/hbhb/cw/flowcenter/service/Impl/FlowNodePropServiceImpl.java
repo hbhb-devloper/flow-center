@@ -1,6 +1,7 @@
 package com.hbhb.cw.flowcenter.service.Impl;
 
 import com.hbhb.core.bean.BeanConverter;
+import com.hbhb.core.bean.SelectVO;
 import com.hbhb.cw.flowcenter.mapper.FlowNodePropMapper;
 import com.hbhb.cw.flowcenter.model.FlowNodeProp;
 import com.hbhb.cw.flowcenter.rpc.UserApiExp;
@@ -50,12 +51,19 @@ public class FlowNodePropServiceImpl implements FlowNodePropService {
 
     @Override
     public void updateNodeProp(FlowNodePropVO vo) {
-        flowNodePropMapper.updateTemplateById(BeanConverter.convert(vo, FlowNodeProp.class));
+        FlowNodeProp flowNodeProp = new FlowNodeProp();
+        BeanConverter.copyProp(vo, flowNodeProp);
+        flowNodePropMapper.updateTemplateById(flowNodeProp);
     }
 
     @Override
     public void deleteNodeProp(Long id) {
         flowNodePropMapper.deleteById(id);
+    }
+
+    @Override
+    public List<SelectVO> getAssignerList(Long flowId) {
+        return flowNodePropMapper.selectAssignerList(flowId);
     }
 
     @Override

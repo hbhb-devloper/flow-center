@@ -1,5 +1,6 @@
 package com.hbhb.cw.flowcenter.web.controller;
 
+import com.hbhb.core.bean.SelectVO;
 import com.hbhb.cw.flowcenter.api.FlowNodePropApi;
 import com.hbhb.cw.flowcenter.service.FlowNodePropService;
 import com.hbhb.cw.flowcenter.vo.FlowNodePropVO;
@@ -57,12 +58,11 @@ public class FlowNodePropController implements FlowNodePropApi {
         flowNodePropService.deleteNodeProp(id);
     }
 
-    // todo 该接口没有用到
-//    @ApiOperation("跟据流程id获取节点分配者列表")
-//    @GetMapping("/node/role/{flowId}")
-//    public List<SelectVO> getNodePropRoleId(@ApiParam(value = "流程id") @PathVariable Long flowId) {
-//        return flowNodePropService.getFlowRoleLid(flowId);
-//    }
+    @Operation(summary = "获取某流程中的分配者列表 | 新版本 /node/role/{flowId} -> /assigner")
+    @GetMapping("/assigner")
+    public List<SelectVO> getAssignerList(@Parameter(description = "流程id") @RequestParam Long flowId) {
+        return flowNodePropService.getAssignerList(flowId);
+    }
 
     @Operation(summary = "获取节点属性列表")
     @Override

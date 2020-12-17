@@ -1,5 +1,6 @@
 package com.hbhb.cw.flowcenter.web.controller;
 
+import com.hbhb.core.bean.SelectVO;
 import com.hbhb.core.utils.ExcelUtil;
 import com.hbhb.cw.flowcenter.api.FlowRoleUserApi;
 import com.hbhb.cw.flowcenter.service.FlowRoleUserService;
@@ -48,6 +49,14 @@ public class FlowRoleUserController implements FlowRoleUserApi {
         pageNum = pageNum == null ? 1 : pageNum;
         pageSize = pageSize == null ? 10 : pageSize;
         return flowRoleUserService.pageFlowRoleUser(cond, pageNum, pageSize);
+    }
+
+    @Operation(summary = "获取某单位下拥有该流程角色的用户列表")
+    @GetMapping("/select")
+    public List<SelectVO> getUserByRoleInUnit(
+            @Parameter(description = "单位id") @RequestParam Integer unitId,
+            @Parameter(description = "流程角色id") @RequestParam Long flowRoleId) {
+        return flowRoleUserService.getUserByRoleInUnit(unitId, flowRoleId);
     }
 
     @Operation(summary = "更新流程角色用户")

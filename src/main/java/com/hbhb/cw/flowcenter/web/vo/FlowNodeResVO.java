@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class FlowStatisticsResVO implements Serializable {
+public class FlowNodeResVO implements Serializable {
     private static final long serialVersionUID = 2881361562419549518L;
 
     @Schema(description = "单位id")
@@ -20,7 +20,7 @@ public class FlowStatisticsResVO implements Serializable {
     private Integer unitId;
     @Schema(description = "单位名称")
     private String unitName;
-    @Schema(description = "流程编号")
+    @Schema(description = "流程id")
     private Long flowId;
     @Schema(description = "流程名称")
     private String flowName;
@@ -32,9 +32,6 @@ public class FlowStatisticsResVO implements Serializable {
     private String linkName;
     @Schema(description = "角色描述")
     private String roleDescription;
-    @Schema(description = "默认用户的id")
-    @JsonIgnore
-    private Integer userId;
     @Schema(description = "默认用户")
     private String userName;
     @Schema(description = "角色范围id")

@@ -17,3 +17,15 @@ selectNodePropList
     where flow_id = #{flowId}
     order by fn.sort_num 
 ```
+
+selectAssignerList
+===
+```sql
+    select distinct fnp.flow_role_id as id,
+                    fr.role_name     as label
+    from flow_node_prop fnp
+         left join flow_role fr on fnp.flow_role_id = fr.id
+         left join flow_node fn on fnp.flow_node_id = fn.id
+         left join flow f on fn.flow_id = f.id
+    where f.id = #{flowId}
+```

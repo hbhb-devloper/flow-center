@@ -18,8 +18,7 @@ import lombok.NoArgsConstructor;
 public class FlowResVO implements Serializable {
     private static final long serialVersionUID = 2385730811455569211L;
 
-    @Schema(description = "流程id")
-    private Long flowId;
+    private Long id;
 
     @Schema(description = "流程类型id")
     private Long flowTypeId;
