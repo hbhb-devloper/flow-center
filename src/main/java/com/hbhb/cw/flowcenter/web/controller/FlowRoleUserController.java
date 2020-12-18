@@ -40,7 +40,7 @@ public class FlowRoleUserController implements FlowRoleUserApi {
     @Resource
     private FlowRoleUserService flowRoleUserService;
 
-    @Operation(summary = "（分页）获取流程角色详情 | 新版本 /role + /info -> /role/user + /list, 出参结构")
+    @Operation(summary = "（分页）获取流程角色详情")
     @GetMapping("/list")
     public PageResult<FlowRoleUserVO> pageFlowRoleUser(
             @Parameter(description = "页码，默认为1") @RequestParam(required = false) Integer pageNum,
@@ -67,7 +67,7 @@ public class FlowRoleUserController implements FlowRoleUserApi {
         flowRoleUserService.updateFlowRoleUser(flowRoleId, userIds);
     }
 
-    @Operation(summary = "删除流程角色用户 | 新版本 /flow/role/flow-role-user/{flowRoleUserId} -> /flow/role/user/{id}")
+    @Operation(summary = "删除流程角色用户")
     @DeleteMapping("/{id}")
     public void deleteFlowRoleUser(
             @Parameter(description = "流程角色关联id") @PathVariable Long id) {

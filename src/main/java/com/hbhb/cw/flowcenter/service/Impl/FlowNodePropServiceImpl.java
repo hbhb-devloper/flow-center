@@ -10,8 +10,8 @@ import com.hbhb.cw.flowcenter.vo.FlowNodePropVO;
 import com.hbhb.cw.systemcenter.vo.UserInfo;
 
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
-import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -37,23 +37,19 @@ public class FlowNodePropServiceImpl implements FlowNodePropService {
     }
 
     @Override
-    public void addNodeProp(FlowNodePropVO vo, Integer userId) {
+    public void upsertNodeProp(FlowNodePropVO vo, Integer userId) {
+        Date now = new Date();
         UserInfo userInfo = userApi.getUserInfoById(userId);
 
         FlowNodeProp flowNodeProp = BeanConverter.convert(vo, FlowNodeProp.class);
-        flowNodeProp.setCreateTime(new Date());
-        flowNodeProp.setCreateBy(userInfo.getNickName());
-        if (vo.getAmount() != null) {
-            flowNodeProp.setAmount(new BigDecimal(vo.getAmount()));
+        if (StringUtils.isEmpty(vo.getFlowNodeId())) {
+            flowNodeProp.setCreateTime(now);
+            flowNodeProp.setCreateBy(userInfo.getNickName());
+        } else {
+            flowNodeProp.setUpdateTime(now);
+            flowNodeProp.setUpdateBy(userInfo.getNickName());
         }
-        flowNodePropMapper.insertTemplate(flowNodeProp);
-    }
-
-    @Override
-    public void updateNodeProp(FlowNodePropVO vo) {
-        FlowNodeProp flowNodeProp = new FlowNodeProp();
-        BeanConverter.copyProp(vo, flowNodeProp);
-        flowNodePropMapper.updateTemplateById(flowNodeProp);
+        flowNodePropMapper.upsertByTemplate(flowNodeProp);
     }
 
     @Override

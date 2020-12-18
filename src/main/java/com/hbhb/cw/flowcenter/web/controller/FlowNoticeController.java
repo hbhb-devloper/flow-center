@@ -34,7 +34,7 @@ public class FlowNoticeController {
         return flowNoticeService.getNoticeList();
     }
 
-    @Operation(summary = "流程提醒详情 | 新版本 /info/{id} -> /{id}")
+    @Operation(summary = "流程提醒详情")
     @GetMapping("/{id}")
     public FlowNoticeVO getFlowRemind(@Parameter(description = "主键id") @PathVariable Long id) {
         return flowNoticeService.getNoticeInfo(id);

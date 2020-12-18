@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -32,24 +31,18 @@ public class FlowNodePropController implements FlowNodePropApi {
     @Resource
     private FlowNodePropService flowNodePropService;
 
-    @Operation(summary = "获取节点属性详情 | 新版本 /info/{flowNodeId} -> /info")
+    @Operation(summary = "获取节点属性详情")
     @GetMapping("/info")
     public FlowNodePropVO getFlowNodeProp(
             @Parameter(description = "流程节点id") @RequestParam String flowNodeId) {
         return flowNodePropService.getNodePropInfo(flowNodeId);
     }
 
-    @Operation(summary = "新增节点属性")
+    @Operation(summary = "新增/修改节点属性")
     @PostMapping("")
-    public void addFlowProp(@Parameter(description = "节点属性vo") @RequestBody FlowNodePropVO vo,
-                            @Parameter(hidden = true) @UserId Integer userId) {
-        flowNodePropService.addNodeProp(vo, userId);
-    }
-
-    @Operation(summary = "修改节点属性 | 新版本 /update -> /")
-    @PutMapping("")
-    public void updateFlowProp(@Parameter(description = "节点属性vo") @RequestBody FlowNodePropVO vo) {
-        flowNodePropService.updateNodeProp(vo);
+    public void updateFlowProp(@Parameter(description = "节点属性vo") @RequestBody FlowNodePropVO vo,
+                               @Parameter(hidden = true) @UserId Integer userId) {
+        flowNodePropService.upsertNodeProp(vo, userId);
     }
 
     @Operation(summary = "删除节点属性")
@@ -58,7 +51,7 @@ public class FlowNodePropController implements FlowNodePropApi {
         flowNodePropService.deleteNodeProp(id);
     }
 
-    @Operation(summary = "获取某流程中的分配者列表 | 新版本 /node/role/{flowId} -> /assigner")
+    @Operation(summary = "获取某流程中的分配者列表")
     @GetMapping("/assigner")
     public List<SelectVO> getAssignerList(@Parameter(description = "流程id") @RequestParam Long flowId) {
         return flowNodePropService.getAssignerList(flowId);

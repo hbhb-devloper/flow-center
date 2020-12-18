@@ -14,14 +14,9 @@ public interface FlowNodePropService {
     FlowNodePropVO getNodePropInfo(String flowNodeId);
 
     /**
-     * 新增节点属性
+     * 新增/修改节点属性
      */
-    void addNodeProp(FlowNodePropVO vo, Integer userId);
-
-    /**
-     * 修改节点属性
-     */
-    void updateNodeProp(FlowNodePropVO vo);
+    void upsertNodeProp(FlowNodePropVO vo, Integer userId);
 
     /**
      * 删除节点属性

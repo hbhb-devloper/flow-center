@@ -35,7 +35,7 @@ public class FlowSuggestionController {
         return flowSuggestionService.getSuggestionList();
     }
 
-    @Operation(summary = "获取审批意见详情 | 新版本 /info/{id} -> /{id}")
+    @Operation(summary = "获取审批意见详情")
     @GetMapping("/{id}")
     public FlowSuggestion getSuggestionInfo(@Parameter(description = "审批意见id") @PathVariable Long id) {
         return flowSuggestionService.getSuggestionInfo(id);
@@ -48,7 +48,7 @@ public class FlowSuggestionController {
         flowSuggestionService.upsertSuggestion(vo);
     }
 
-    @Operation(summary = "修改审批意见 | 新版本 /update -> /")
+    @Operation(summary = "修改审批意见")
     @PutMapping("")
     public void updateSuggestion(
             @Parameter(description = "审批意见实体") @RequestBody FlowSuggestionVO vo) {
