@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class FlowProjectVO implements Serializable {
+public class FlowVfdVO implements Serializable {
     private static final long serialVersionUID = 1422505442848139368L;
 
     private Long flowId;

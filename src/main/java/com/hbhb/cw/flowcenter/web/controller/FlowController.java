@@ -4,9 +4,9 @@ import com.hbhb.core.bean.SelectVO;
 import com.hbhb.cw.flowcenter.api.FlowApi;
 import com.hbhb.cw.flowcenter.model.Flow;
 import com.hbhb.cw.flowcenter.service.FlowService;
-import com.hbhb.cw.flowcenter.web.vo.FlowProjectVO;
 import com.hbhb.cw.flowcenter.web.vo.FlowResVO;
 import com.hbhb.cw.flowcenter.web.vo.FlowVO;
+import com.hbhb.cw.flowcenter.web.vo.FlowVfdVO;
 
 import org.beetl.sql.core.page.PageResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -76,16 +76,16 @@ public class FlowController implements FlowApi {
 
     @Operation(summary = "获取流程图")
     @GetMapping("/vfd/{flowId}")
-    public FlowProjectVO getFlowProjectInfo(
+    public FlowVfdVO getFlowVfd(
             @Parameter(description = "流程id", required = true) @PathVariable Long flowId) {
-        return flowService.getFlowProjectInfo(flowId);
+        return flowService.getFlowVfd(flowId);
     }
 
     @Operation(summary = "保存流程图")
     @PostMapping("/vfd")
-    public void saveFlowProjectInfo(
-            @Parameter(description = "流程项目详情", required = true) @RequestBody FlowProjectVO vo) {
-        flowService.saveFlowProjectInfo(vo);
+    public void saveFlowVfd(
+            @Parameter(description = "流程项目详情", required = true) @RequestBody FlowVfdVO vo) {
+        flowService.saveFlowVfd(vo);
     }
 
     @Operation(summary = "流程名称列表")

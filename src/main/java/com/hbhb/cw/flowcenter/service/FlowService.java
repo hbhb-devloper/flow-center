@@ -2,9 +2,9 @@ package com.hbhb.cw.flowcenter.service;
 
 import com.hbhb.core.bean.SelectVO;
 import com.hbhb.cw.flowcenter.model.Flow;
-import com.hbhb.cw.flowcenter.web.vo.FlowProjectVO;
 import com.hbhb.cw.flowcenter.web.vo.FlowResVO;
 import com.hbhb.cw.flowcenter.web.vo.FlowVO;
+import com.hbhb.cw.flowcenter.web.vo.FlowVfdVO;
 
 import org.beetl.sql.core.page.PageResult;
 
@@ -49,12 +49,12 @@ public interface FlowService {
     /**
      * 获取流程项目详情
      */
-    FlowProjectVO getFlowProjectInfo(Long flowId);
+    FlowVfdVO getFlowVfd(Long flowId);
 
     /**
      * 保存流程项目详情
      */
-    void saveFlowProjectInfo(FlowProjectVO vo);
+    void saveFlowVfd(FlowVfdVO vo);
 
     /**
      * 获取所有流程名称列表

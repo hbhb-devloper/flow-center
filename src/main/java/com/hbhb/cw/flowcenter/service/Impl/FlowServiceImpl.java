@@ -19,9 +19,9 @@ import com.hbhb.cw.flowcenter.model.FlowUnit;
 import com.hbhb.cw.flowcenter.service.FlowService;
 import com.hbhb.cw.flowcenter.web.vo.FlowLineVO;
 import com.hbhb.cw.flowcenter.web.vo.FlowNodeVO;
-import com.hbhb.cw.flowcenter.web.vo.FlowProjectVO;
 import com.hbhb.cw.flowcenter.web.vo.FlowResVO;
 import com.hbhb.cw.flowcenter.web.vo.FlowVO;
+import com.hbhb.cw.flowcenter.web.vo.FlowVfdVO;
 
 import org.beetl.sql.core.page.DefaultPageRequest;
 import org.beetl.sql.core.page.PageRequest;
@@ -189,10 +189,10 @@ public class FlowServiceImpl implements FlowService {
     }
 
     @Override
-    public FlowProjectVO getFlowProjectInfo(Long flowId) {
+    public FlowVfdVO getFlowVfd(Long flowId) {
         Flow flow = flowMapper.single(flowId);
         if (flow == null) {
-            return new FlowProjectVO();
+            return new FlowVfdVO();
         }
 
         // 组装流程节点信息
@@ -205,7 +205,7 @@ public class FlowServiceImpl implements FlowService {
                 .andEq(FlowLine::getFlowId, flowId)
                 .select();
 
-        return FlowProjectVO.builder()
+        return FlowVfdVO.builder()
                 .flowId(flowId)
                 .name(flow.getFlowName())
                 .nodeList(Optional.ofNullable(flowNodes)
@@ -237,10 +237,10 @@ public class FlowServiceImpl implements FlowService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void saveFlowProjectInfo(FlowProjectVO flowProjectVO) {
-        Long flowId = flowProjectVO.getFlowId();
+    public void saveFlowVfd(FlowVfdVO flowVfdVO) {
+        Long flowId = flowVfdVO.getFlowId();
         // 组装流程节点信息
-        List<FlowNodeVO> nodeList = flowProjectVO.getNodeList();
+        List<FlowNodeVO> nodeList = flowVfdVO.getNodeList();
         List<FlowNode> flowNodes = Optional.ofNullable(nodeList)
                 .orElse(new ArrayList<>())
                 .stream()
@@ -257,7 +257,7 @@ public class FlowServiceImpl implements FlowService {
                 .collect(Collectors.toList());
 
         // 组装流程链接信息
-        List<FlowLineVO> lineList = flowProjectVO.getLineList();
+        List<FlowLineVO> lineList = flowVfdVO.getLineList();
         List<FlowLine> flowLines = Optional.ofNullable(lineList)
                 .orElse(new ArrayList<>())
                 .stream()
