@@ -16,7 +16,7 @@ public interface FlowNodePropService {
     /**
      * 新增/修改节点属性
      */
-    void upsertNodeProp(FlowNodePropVO vo, Integer userId);
+    void upsertNodeProp(FlowNodePropVO vo);
 
     /**
      * 删除节点属性

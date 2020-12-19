@@ -4,29 +4,26 @@ import com.hbhb.core.bean.BeanConverter;
 import com.hbhb.core.bean.SelectVO;
 import com.hbhb.cw.flowcenter.mapper.FlowNodePropMapper;
 import com.hbhb.cw.flowcenter.model.FlowNodeProp;
-import com.hbhb.cw.flowcenter.rpc.UserApiExp;
 import com.hbhb.cw.flowcenter.service.FlowNodePropService;
 import com.hbhb.cw.flowcenter.vo.FlowNodePropVO;
-import com.hbhb.cw.systemcenter.vo.UserInfo;
 
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
-import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
 
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * @author tpson
+ */
 @Service
 @Slf4j
 public class FlowNodePropServiceImpl implements FlowNodePropService {
 
     @Resource
     private FlowNodePropMapper flowNodePropMapper;
-    @Resource
-    private UserApiExp userApi;
 
     @Override
     public FlowNodePropVO getNodePropInfo(String flowNodeId) {
@@ -37,19 +34,9 @@ public class FlowNodePropServiceImpl implements FlowNodePropService {
     }
 
     @Override
-    public void upsertNodeProp(FlowNodePropVO vo, Integer userId) {
-        Date now = new Date();
-        UserInfo userInfo = userApi.getUserInfoById(userId);
-
+    public void upsertNodeProp(FlowNodePropVO vo) {
         FlowNodeProp flowNodeProp = BeanConverter.convert(vo, FlowNodeProp.class);
-        if (StringUtils.isEmpty(vo.getFlowNodeId())) {
-            flowNodeProp.setCreateTime(now);
-            flowNodeProp.setCreateBy(userInfo.getNickName());
-        } else {
-            flowNodeProp.setUpdateTime(now);
-            flowNodeProp.setUpdateBy(userInfo.getNickName());
-        }
-        flowNodePropMapper.upsertByTemplate(flowNodeProp);
+        flowNodePropMapper.upsert(flowNodeProp);
     }
 
     @Override

@@ -4,7 +4,6 @@ import com.hbhb.core.bean.SelectVO;
 import com.hbhb.cw.flowcenter.api.FlowNodePropApi;
 import com.hbhb.cw.flowcenter.service.FlowNodePropService;
 import com.hbhb.cw.flowcenter.vo.FlowNodePropVO;
-import com.hbhb.web.annotation.UserId;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,9 +39,8 @@ public class FlowNodePropController implements FlowNodePropApi {
 
     @Operation(summary = "新增/修改节点属性")
     @PostMapping("")
-    public void updateFlowProp(@Parameter(description = "节点属性vo") @RequestBody FlowNodePropVO vo,
-                               @Parameter(hidden = true) @UserId Integer userId) {
-        flowNodePropService.upsertNodeProp(vo, userId);
+    public void updateFlowProp(@Parameter(description = "节点属性vo") @RequestBody FlowNodePropVO vo) {
+        flowNodePropService.upsertNodeProp(vo);
     }
 
     @Operation(summary = "删除节点属性")
