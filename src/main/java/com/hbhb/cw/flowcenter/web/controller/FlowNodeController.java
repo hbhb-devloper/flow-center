@@ -3,6 +3,8 @@ package com.hbhb.cw.flowcenter.web.controller;
 import com.hbhb.core.bean.SelectVO;
 import com.hbhb.core.utils.ExcelUtil;
 import com.hbhb.cw.flowcenter.api.FlowNodeApi;
+import com.hbhb.cw.flowcenter.enums.code.FlowErrorCode;
+import com.hbhb.cw.flowcenter.exception.FlowException;
 import com.hbhb.cw.flowcenter.model.FlowLine;
 import com.hbhb.cw.flowcenter.service.FlowNodeService;
 import com.hbhb.cw.flowcenter.web.vo.FlowExportReqVO;
@@ -76,8 +78,11 @@ public class FlowNodeController implements FlowNodeApi {
     @Operation(summary = "流程节点列表导出")
     @PostMapping("/export")
     public void export(HttpServletRequest request, HttpServletResponse response,
-                       @RequestBody FlowExportReqVO vo) {
-        List<FlowExportVO> list = flowNodeService.getExportList(vo.getUnitId(), vo.getFlowId());
+                       @RequestBody FlowExportReqVO cond) {
+        if (cond.getUnitId() == null) {
+            throw new FlowException(FlowErrorCode.FLOW_QUERY_LACK_OF_UNIT_ID);
+        }
+        List<FlowExportVO> list = flowNodeService.getExportList(cond.getUnitId(), cond.getFlowId());
         String fileName = ExcelUtil.encodingFileName(request, "流程节点列表");
         ExcelUtil.export2Web(response, fileName, fileName, FlowExportVO.class, list);
     }

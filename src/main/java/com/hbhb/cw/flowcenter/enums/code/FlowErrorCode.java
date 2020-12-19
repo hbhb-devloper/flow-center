@@ -9,10 +9,11 @@ import lombok.Getter;
 @Getter
 public enum FlowErrorCode {
 
-    FLOW_UNIT_NULL_ERROR("F0001", "flow.unit.null.error"),
-    FLOW_IS_IN_USE("F0002", "flow.is.in.use"),
-    FLOW_TYPE_IS_IN_USE("F0003", "flow.type.is.in.use"),
-    FLOW_ROLE_IS_IN_USE("F0004", "flow.role.is.in.use"),
+    FLOW_UNIT_NULL_ERROR("FL001", "flow.unit.null.error"),
+    FLOW_IS_IN_USE("FL002", "flow.is.in.use"),
+    FLOW_TYPE_IS_IN_USE("FL003", "flow.type.is.in.use"),
+    FLOW_ROLE_IS_IN_USE("FL004", "flow.role.is.in.use"),
+    FLOW_QUERY_LACK_OF_UNIT_ID("FL005", "flow.query.lack.of.unit_id"),
 
     ;
 

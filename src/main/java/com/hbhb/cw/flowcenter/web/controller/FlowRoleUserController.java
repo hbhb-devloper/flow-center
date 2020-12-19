@@ -3,6 +3,8 @@ package com.hbhb.cw.flowcenter.web.controller;
 import com.hbhb.core.bean.SelectVO;
 import com.hbhb.core.utils.ExcelUtil;
 import com.hbhb.cw.flowcenter.api.FlowRoleUserApi;
+import com.hbhb.cw.flowcenter.enums.code.FlowErrorCode;
+import com.hbhb.cw.flowcenter.exception.FlowException;
 import com.hbhb.cw.flowcenter.service.FlowRoleUserService;
 import com.hbhb.cw.flowcenter.web.vo.FlowRoleExportVO;
 import com.hbhb.cw.flowcenter.web.vo.FlowRoleUserReqVO;
@@ -78,6 +80,9 @@ public class FlowRoleUserController implements FlowRoleUserApi {
     @PostMapping("/export")
     public void export(HttpServletRequest request, HttpServletResponse response,
                        @RequestBody @Parameter(description = "流程角色实体") FlowRoleUserReqVO cond) {
+        if (cond.getUnitId() == null) {
+            throw new FlowException(FlowErrorCode.FLOW_QUERY_LACK_OF_UNIT_ID);
+        }
         List<FlowRoleExportVO> list = flowRoleUserService.getExportList(cond);
         String fileName = ExcelUtil.encodingFileName(request, "流程角色列表");
         ExcelUtil.export2Web(response, fileName, fileName, FlowRoleExportVO.class, list);
