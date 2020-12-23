@@ -1,6 +1,6 @@
 package com.hbhb.cw.flowcenter.web.controller;
 
-import com.hbhb.core.bean.SelectVO;
+import com.hbhb.api.core.bean.SelectVO;
 import com.hbhb.core.utils.ExcelUtil;
 import com.hbhb.cw.flowcenter.api.FlowRoleUserApi;
 import com.hbhb.cw.flowcenter.enums.code.FlowErrorCode;
@@ -9,27 +9,16 @@ import com.hbhb.cw.flowcenter.service.FlowRoleUserService;
 import com.hbhb.cw.flowcenter.web.vo.FlowRoleExportVO;
 import com.hbhb.cw.flowcenter.web.vo.FlowRoleUserReqVO;
 import com.hbhb.cw.flowcenter.web.vo.FlowRoleUserVO;
-
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.beetl.sql.core.page.PageResult;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.tags.Tag;
+import java.util.List;
 
 /**
  * @author wangxiaogang
@@ -90,7 +79,7 @@ public class FlowRoleUserController implements FlowRoleUserApi {
 
     @Operation(summary = "按流程角色名称查询用户id")
     @Override
-    public List<Integer> getUserIdByRoleName(@Parameter(description = "流程角色名称") String roleName) {
+    public List<SelectVO> getUserIdByRoleName(@Parameter(description = "流程角色名称") String roleName) {
         return flowRoleUserService.getUserIdByRoleName(roleName);
     }
 

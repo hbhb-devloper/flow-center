@@ -1,10 +1,10 @@
 package com.hbhb.cw.flowcenter.service;
 
-import com.hbhb.core.bean.SelectVO;
+
+import com.hbhb.api.core.bean.SelectVO;
 import com.hbhb.cw.flowcenter.web.vo.FlowRoleExportVO;
 import com.hbhb.cw.flowcenter.web.vo.FlowRoleUserReqVO;
 import com.hbhb.cw.flowcenter.web.vo.FlowRoleUserVO;
-
 import org.beetl.sql.core.page.PageResult;
 
 import java.util.List;
@@ -42,7 +42,7 @@ public interface FlowRoleUserService {
     /**
      * 按角色名称查询角色用户
      */
-    List<Integer> getUserIdByRoleName(String roleName);
+    List<SelectVO> getUserIdByRoleName(String roleName);
 
     /**
      * 按角色名称查询角色用户

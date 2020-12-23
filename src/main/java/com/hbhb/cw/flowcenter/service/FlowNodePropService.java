@@ -1,7 +1,7 @@
 package com.hbhb.cw.flowcenter.service;
 
 
-import com.hbhb.core.bean.SelectVO;
+import com.hbhb.api.core.bean.SelectVO;
 import com.hbhb.cw.flowcenter.vo.FlowNodePropVO;
 
 import java.util.List;

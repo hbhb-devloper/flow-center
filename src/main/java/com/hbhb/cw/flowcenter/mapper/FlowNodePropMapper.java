@@ -1,7 +1,7 @@
 package com.hbhb.cw.flowcenter.mapper;
 
+import com.hbhb.api.core.bean.SelectVO;
 import com.hbhb.beetlsql.BaseMapper;
-import com.hbhb.core.bean.SelectVO;
 import com.hbhb.cw.flowcenter.model.FlowNodeProp;
 import com.hbhb.cw.flowcenter.vo.FlowNodePropVO;
 

@@ -1,31 +1,30 @@
 package com.hbhb.cw.flowcenter.service.Impl;
 
+import com.hbhb.api.core.bean.SelectVO;
 import com.hbhb.core.bean.BeanConverter;
-import com.hbhb.core.bean.SelectVO;
 import com.hbhb.cw.flowcenter.mapper.FlowRoleMapper;
 import com.hbhb.cw.flowcenter.mapper.FlowRoleUserMapper;
 import com.hbhb.cw.flowcenter.model.FlowRole;
 import com.hbhb.cw.flowcenter.model.FlowRoleUser;
 import com.hbhb.cw.flowcenter.rpc.UnitApiExp;
+import com.hbhb.cw.flowcenter.rpc.UserApiExp;
 import com.hbhb.cw.flowcenter.service.FlowRoleUserService;
 import com.hbhb.cw.flowcenter.web.vo.FlowRoleExportVO;
 import com.hbhb.cw.flowcenter.web.vo.FlowRoleUserReqVO;
 import com.hbhb.cw.flowcenter.web.vo.FlowRoleUserVO;
-
+import com.hbhb.cw.systemcenter.vo.UserInfo;
+import lombok.extern.slf4j.Slf4j;
 import org.beetl.sql.core.page.DefaultPageRequest;
 import org.beetl.sql.core.page.PageRequest;
 import org.beetl.sql.core.page.PageResult;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
-import javax.annotation.Resource;
-
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author wangxiaogang
@@ -41,6 +40,8 @@ public class FlowRoleUserServiceImpl implements FlowRoleUserService {
     private FlowRoleUserMapper flowRoleUserMapper;
     @Resource
     private UnitApiExp unitApi;
+    @Resource
+    private UserApiExp userApi;
 
     @Override
     public PageResult<FlowRoleUserVO> pageFlowRoleUser(FlowRoleUserReqVO cond,
@@ -92,7 +93,7 @@ public class FlowRoleUserServiceImpl implements FlowRoleUserService {
     }
 
     @Override
-    public List<Integer> getUserIdByRoleName(String roleName) {
+    public List<SelectVO> getUserIdByRoleName(String roleName) {
         List<FlowRole> flowRoles = flowRoleMapper.createLambdaQuery()
                 .andEq(FlowRole::getRoleName, roleName)
                 .select(FlowRole::getId);
@@ -104,7 +105,16 @@ public class FlowRoleUserServiceImpl implements FlowRoleUserService {
         List<FlowRoleUser> flowRoleUsers = flowRoleUserMapper.createLambdaQuery()
                 .andIn(FlowRoleUser::getFlowRoleId, flowRoleIds)
                 .select();
-        return flowRoleUsers.stream().map(FlowRoleUser::getUserId).collect(Collectors.toList());
+        List<Integer> userIds = flowRoleUsers.stream().map(FlowRoleUser::getUserId).collect(Collectors.toList());
+        List<UserInfo> userList = userApi.getUserInfoBatch(userIds);
+        return Optional.of(userList)
+                .orElse(new ArrayList<>())
+                .stream()
+                .map(userInfo -> SelectVO.builder()
+                        .id(Long.valueOf(userInfo.getId()))
+                        .label(userInfo.getNickName())
+                        .build())
+                .collect(Collectors.toList());
     }
 
     @Override

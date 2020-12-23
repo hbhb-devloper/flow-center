@@ -1,28 +1,25 @@
 package com.hbhb.cw.flowcenter.service.Impl;
 
+import com.hbhb.api.core.bean.SelectVO;
 import com.hbhb.beetlsql.core.QueryExt;
-import com.hbhb.core.bean.SelectVO;
 import com.hbhb.cw.flowcenter.mapper.FlowTypeMapper;
 import com.hbhb.cw.flowcenter.model.FlowType;
 import com.hbhb.cw.flowcenter.rpc.DictApiExp;
 import com.hbhb.cw.flowcenter.service.FlowTypeService;
 import com.hbhb.cw.systemcenter.enums.TypeCode;
 import com.hbhb.cw.systemcenter.vo.DictVO;
-
+import lombok.extern.slf4j.Slf4j;
 import org.beetl.sql.core.page.PageResult;
 import org.beetl.sql.core.query.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
-import javax.annotation.Resource;
-
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author wangxiaogang

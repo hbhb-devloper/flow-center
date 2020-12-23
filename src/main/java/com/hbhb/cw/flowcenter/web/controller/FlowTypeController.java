@@ -1,6 +1,6 @@
 package com.hbhb.cw.flowcenter.web.controller;
 
-import com.hbhb.core.bean.SelectVO;
+import com.hbhb.api.core.bean.SelectVO;
 import com.hbhb.cw.flowcenter.api.FlowTypeApi;
 import com.hbhb.cw.flowcenter.enums.code.FlowErrorCode;
 import com.hbhb.cw.flowcenter.exception.FlowException;
@@ -8,26 +8,15 @@ import com.hbhb.cw.flowcenter.model.Flow;
 import com.hbhb.cw.flowcenter.model.FlowType;
 import com.hbhb.cw.flowcenter.service.FlowService;
 import com.hbhb.cw.flowcenter.service.FlowTypeService;
-
-import org.beetl.sql.core.page.PageResult;
-import org.springframework.util.CollectionUtils;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
-
-import javax.annotation.Resource;
-
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.beetl.sql.core.page.PageResult;
+import org.springframework.util.CollectionUtils;
+import org.springframework.web.bind.annotation.*;
+
+import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * @author wangxiaogang
