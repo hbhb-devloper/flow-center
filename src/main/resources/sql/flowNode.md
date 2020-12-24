@@ -31,3 +31,35 @@ selectPageByCond
         order by fn.id
     -- @}
 ```
+
+batchInsert
+===
+```sql
+    insert into flow_node 
+    (
+        id,
+        flow_id,
+        node_type,
+        node_name,
+        p_left,
+        p_top,
+        ico,
+        state,
+        sort_num
+    )
+    values 
+    -- @for(item in list){
+    (
+        #{item.id},
+        #{item.flowId},
+        #{item.type},
+        #{item.name},
+        #{item.left},
+        #{item.top},
+        #{item.ico},
+        #{item.state},
+        #{item.sortNum}
+    )
+    #{text(itemLP.last?"":"," )}
+    -- @}
+```
