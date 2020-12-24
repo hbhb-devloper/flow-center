@@ -6,14 +6,11 @@ import com.hbhb.cw.flowcenter.mapper.FlowNodePropMapper;
 import com.hbhb.cw.flowcenter.model.FlowNodeProp;
 import com.hbhb.cw.flowcenter.service.FlowNodePropService;
 import com.hbhb.cw.flowcenter.vo.FlowNodePropVO;
-
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 import javax.annotation.Resource;
-
-import lombok.extern.slf4j.Slf4j;
+import java.util.List;
 
 /**
  * @author tpson

@@ -4,25 +4,11 @@ import com.hbhb.api.core.bean.SelectVO;
 import com.hbhb.core.bean.BeanConverter;
 import com.hbhb.cw.flowcenter.enums.code.FlowErrorCode;
 import com.hbhb.cw.flowcenter.exception.FlowException;
-import com.hbhb.cw.flowcenter.mapper.FlowLineMapper;
-import com.hbhb.cw.flowcenter.mapper.FlowMapper;
-import com.hbhb.cw.flowcenter.mapper.FlowNodeMapper;
-import com.hbhb.cw.flowcenter.mapper.FlowNodeNoticeMapper;
-import com.hbhb.cw.flowcenter.mapper.FlowNodePropMapper;
-import com.hbhb.cw.flowcenter.mapper.FlowUnitMapper;
-import com.hbhb.cw.flowcenter.model.Flow;
-import com.hbhb.cw.flowcenter.model.FlowLine;
-import com.hbhb.cw.flowcenter.model.FlowNode;
-import com.hbhb.cw.flowcenter.model.FlowNodeNotice;
-import com.hbhb.cw.flowcenter.model.FlowNodeProp;
-import com.hbhb.cw.flowcenter.model.FlowUnit;
+import com.hbhb.cw.flowcenter.mapper.*;
+import com.hbhb.cw.flowcenter.model.*;
 import com.hbhb.cw.flowcenter.service.FlowService;
-import com.hbhb.cw.flowcenter.web.vo.FlowLineVO;
-import com.hbhb.cw.flowcenter.web.vo.FlowNodeVO;
-import com.hbhb.cw.flowcenter.web.vo.FlowResVO;
-import com.hbhb.cw.flowcenter.web.vo.FlowVO;
-import com.hbhb.cw.flowcenter.web.vo.FlowVfdVO;
-
+import com.hbhb.cw.flowcenter.web.vo.*;
+import lombok.extern.slf4j.Slf4j;
 import org.beetl.sql.core.page.DefaultPageRequest;
 import org.beetl.sql.core.page.PageRequest;
 import org.beetl.sql.core.page.PageResult;
@@ -31,14 +17,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
-import javax.annotation.Resource;
-
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author wangxiaogang

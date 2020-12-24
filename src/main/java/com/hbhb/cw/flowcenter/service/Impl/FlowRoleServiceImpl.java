@@ -12,17 +12,15 @@ import com.hbhb.cw.flowcenter.model.FlowRole;
 import com.hbhb.cw.flowcenter.model.FlowRoleUser;
 import com.hbhb.cw.flowcenter.service.FlowRoleService;
 import com.hbhb.cw.flowcenter.vo.FlowRoleVO;
-
 import org.beetl.sql.core.page.PageResult;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
-import javax.annotation.Resource;
 
 /**
  * @author yzc
