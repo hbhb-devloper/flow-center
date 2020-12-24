@@ -1,7 +1,7 @@
 package com.hbhb.cw.flowcenter.service.Impl;
 
+import com.hbhb.api.core.bean.SelectVO;
 import com.hbhb.core.bean.BeanConverter;
-import com.hbhb.core.bean.SelectVO;
 import com.hbhb.cw.flowcenter.enums.code.FlowErrorCode;
 import com.hbhb.cw.flowcenter.exception.FlowException;
 import com.hbhb.cw.flowcenter.mapper.FlowNodePropMapper;
@@ -42,6 +42,11 @@ public class FlowRoleServiceImpl implements FlowRoleService {
         return flowRoleMapper.createLambdaQuery()
                 .asc(FlowRole::getSortNum)
                 .page(pageNum, pageSize);
+    }
+
+    @Override
+    public FlowRole getFlowRole(Long id) {
+        return flowRoleMapper.single(id);
     }
 
     @Override

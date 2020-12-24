@@ -1,6 +1,6 @@
 package com.hbhb.cw.flowcenter.service;
 
-import com.hbhb.core.bean.SelectVO;
+import com.hbhb.api.core.bean.SelectVO;
 import com.hbhb.cw.flowcenter.web.vo.FlowRoleExportVO;
 import com.hbhb.cw.flowcenter.web.vo.FlowRoleUserReqVO;
 import com.hbhb.cw.flowcenter.web.vo.FlowRoleUserVO;
@@ -40,12 +40,17 @@ public interface FlowRoleUserService {
     List<FlowRoleExportVO> getExportList(FlowRoleUserReqVO cond);
 
     /**
-     * 按角色名称查询角色用户
+     * 按角色id查询用户id
+     */
+    List<Integer> getUserIdByRoleId(Long roleId);
+
+    /**
+     * 按角色名称查询用户id
      */
     List<Integer> getUserIdByRoleName(String roleName);
 
     /**
-     * 按角色名称查询角色用户
+     * 按用户id查询角色名称
      */
     List<String> getRoleNameByUserId(Integer userId);
 

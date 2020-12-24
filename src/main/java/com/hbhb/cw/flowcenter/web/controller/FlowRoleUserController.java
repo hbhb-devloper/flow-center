@@ -1,6 +1,6 @@
 package com.hbhb.cw.flowcenter.web.controller;
 
-import com.hbhb.core.bean.SelectVO;
+import com.hbhb.api.core.bean.SelectVO;
 import com.hbhb.core.utils.ExcelUtil;
 import com.hbhb.cw.flowcenter.api.FlowRoleUserApi;
 import com.hbhb.cw.flowcenter.enums.code.FlowErrorCode;
@@ -86,6 +86,12 @@ public class FlowRoleUserController implements FlowRoleUserApi {
         List<FlowRoleExportVO> list = flowRoleUserService.getExportList(cond);
         String fileName = ExcelUtil.encodingFileName(request, "流程角色列表");
         ExcelUtil.export2Web(response, fileName, fileName, FlowRoleExportVO.class, list);
+    }
+
+    @Operation(summary = "按流程角色名称查询用户id")
+    @Override
+    public List<Integer> getUserIdByRoleId(@Parameter(description = "流程角色id") Long roleId) {
+        return flowRoleUserService.getUserIdByRoleId(roleId);
     }
 
     @Operation(summary = "按流程角色名称查询用户id")

@@ -1,6 +1,7 @@
 package com.hbhb.cw.flowcenter.web.controller;
 
-import com.hbhb.core.bean.SelectVO;
+import com.hbhb.api.core.bean.SelectVO;
+import com.hbhb.cw.flowcenter.api.FlowRoleApi;
 import com.hbhb.cw.flowcenter.model.FlowRole;
 import com.hbhb.cw.flowcenter.service.FlowRoleService;
 import com.hbhb.cw.flowcenter.vo.FlowRoleVO;
@@ -30,7 +31,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @Tag(name = "流程角色")
 @RestController
 @RequestMapping("/role")
-public class FlowRoleController {
+public class FlowRoleController implements FlowRoleApi {
 
     @Resource
     private FlowRoleService flowRoleService;
@@ -65,8 +66,14 @@ public class FlowRoleController {
 
     @Operation(summary = "删除流程角色")
     @DeleteMapping("/{id}")
-    public void deleteFlowRole(
-            @Parameter(description = "流程角色id") @PathVariable(required = false) Long id) {
+    public void deleteFlowRole(@Parameter(description = "流程角色id") @PathVariable Long id) {
         flowRoleService.deleteFlowRole(id);
+    }
+
+    @Operation(summary = "查询流程角色名称")
+    @Override
+    public String getNameById(@Parameter(description = "流程角色id") @RequestParam Long id) {
+        FlowRole flowRole = flowRoleService.getFlowRole(id);
+        return flowRole.getRoleName();
     }
 }

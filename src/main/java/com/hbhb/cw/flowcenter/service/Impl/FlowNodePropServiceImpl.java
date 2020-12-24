@@ -1,7 +1,7 @@
 package com.hbhb.cw.flowcenter.service.Impl;
 
+import com.hbhb.api.core.bean.SelectVO;
 import com.hbhb.core.bean.BeanConverter;
-import com.hbhb.core.bean.SelectVO;
 import com.hbhb.cw.flowcenter.mapper.FlowNodePropMapper;
 import com.hbhb.cw.flowcenter.model.FlowNodeProp;
 import com.hbhb.cw.flowcenter.service.FlowNodePropService;

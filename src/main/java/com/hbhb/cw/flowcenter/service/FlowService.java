@@ -1,6 +1,6 @@
 package com.hbhb.cw.flowcenter.service;
 
-import com.hbhb.core.bean.SelectVO;
+import com.hbhb.api.core.bean.SelectVO;
 import com.hbhb.cw.flowcenter.model.Flow;
 import com.hbhb.cw.flowcenter.web.vo.FlowResVO;
 import com.hbhb.cw.flowcenter.web.vo.FlowVO;

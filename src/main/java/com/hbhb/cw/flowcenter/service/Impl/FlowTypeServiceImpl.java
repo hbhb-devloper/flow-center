@@ -1,7 +1,7 @@
 package com.hbhb.cw.flowcenter.service.Impl;
 
+import com.hbhb.api.core.bean.SelectVO;
 import com.hbhb.beetlsql.core.QueryExt;
-import com.hbhb.core.bean.SelectVO;
 import com.hbhb.cw.flowcenter.mapper.FlowTypeMapper;
 import com.hbhb.cw.flowcenter.model.FlowType;
 import com.hbhb.cw.flowcenter.rpc.DictApiExp;

@@ -1,7 +1,7 @@
 package com.hbhb.cw.flowcenter.service.Impl;
 
+import com.hbhb.api.core.bean.SelectVO;
 import com.hbhb.core.bean.BeanConverter;
-import com.hbhb.core.bean.SelectVO;
 import com.hbhb.cw.flowcenter.mapper.FlowRoleMapper;
 import com.hbhb.cw.flowcenter.mapper.FlowRoleUserMapper;
 import com.hbhb.cw.flowcenter.model.FlowRole;
@@ -88,6 +88,18 @@ public class FlowRoleUserServiceImpl implements FlowRoleUserService {
                 .orElse(new ArrayList<>())
                 .stream()
                 .map(vo -> BeanConverter.convert(vo, FlowRoleExportVO.class))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Integer> getUserIdByRoleId(Long roleId) {
+        List<FlowRoleUser> list = flowRoleUserMapper.createLambdaQuery()
+                .andEq(FlowRoleUser::getFlowRoleId, roleId)
+                .select();
+        return Optional.ofNullable(list)
+                .orElse(new ArrayList<>())
+                .stream()
+                .map(FlowRoleUser::getUserId)
                 .collect(Collectors.toList());
     }
 

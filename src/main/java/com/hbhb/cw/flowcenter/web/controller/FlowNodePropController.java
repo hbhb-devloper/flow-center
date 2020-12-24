@@ -1,6 +1,6 @@
 package com.hbhb.cw.flowcenter.web.controller;
 
-import com.hbhb.core.bean.SelectVO;
+import com.hbhb.api.core.bean.SelectVO;
 import com.hbhb.cw.flowcenter.api.FlowNodePropApi;
 import com.hbhb.cw.flowcenter.service.FlowNodePropService;
 import com.hbhb.cw.flowcenter.vo.FlowNodePropVO;

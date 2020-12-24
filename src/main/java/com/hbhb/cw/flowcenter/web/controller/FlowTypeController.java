@@ -1,6 +1,6 @@
 package com.hbhb.cw.flowcenter.web.controller;
 
-import com.hbhb.core.bean.SelectVO;
+import com.hbhb.api.core.bean.SelectVO;
 import com.hbhb.cw.flowcenter.api.FlowTypeApi;
 import com.hbhb.cw.flowcenter.enums.code.FlowErrorCode;
 import com.hbhb.cw.flowcenter.exception.FlowException;
