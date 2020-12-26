@@ -47,11 +47,11 @@ host:
 
 port:
   default: 10079
-  dev: 10032
-  dev-proxy: 10018
-  test: 10033
-  test-proxy: 10019
-  prd: 10015
+  dev: 10025
+  dev-proxy: 10005
+  test: 10026
+  test-proxy: 10006
+  prd: 10005
 
 # 指定服务提供方实例地址（为空则不指定）
 feign-url:
