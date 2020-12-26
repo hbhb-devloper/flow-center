@@ -2,6 +2,7 @@ package com.hbhb.cw.flowcenter.service;
 
 import com.hbhb.api.core.bean.SelectVO;
 import com.hbhb.cw.flowcenter.model.FlowType;
+
 import org.beetl.sql.core.page.PageResult;
 
 import java.util.List;
@@ -20,6 +21,11 @@ public interface FlowTypeService {
      * 按模块获流程类型列表
      */
     List<SelectVO> getListByModule(String module);
+
+    /**
+     * 获取流程类型详情
+     */
+    FlowType getFlowTypeInfo(Long id);
 
     /**
      * 新增/修改流程类型

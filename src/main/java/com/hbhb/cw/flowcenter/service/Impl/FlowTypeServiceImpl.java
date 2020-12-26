@@ -8,18 +8,21 @@ import com.hbhb.cw.flowcenter.rpc.DictApiExp;
 import com.hbhb.cw.flowcenter.service.FlowTypeService;
 import com.hbhb.cw.systemcenter.enums.TypeCode;
 import com.hbhb.cw.systemcenter.vo.DictVO;
-import lombok.extern.slf4j.Slf4j;
+
 import org.beetl.sql.core.page.PageResult;
 import org.beetl.sql.core.query.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
+import javax.annotation.Resource;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author wangxiaogang
@@ -64,6 +67,11 @@ public class FlowTypeServiceImpl implements FlowTypeService {
                         .label(flowType.getFlowTypeName())
                         .build())
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public FlowType getFlowTypeInfo(Long id) {
+        return flowTypeMapper.single(id);
     }
 
     @Override
