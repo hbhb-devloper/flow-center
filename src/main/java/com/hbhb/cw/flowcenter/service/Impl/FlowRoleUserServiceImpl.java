@@ -128,7 +128,7 @@ public class FlowRoleUserServiceImpl implements FlowRoleUserService {
             return new ArrayList<>();
         }
 
-        List<Long> flowRoleIds = flowRoleUsers.stream().map(FlowRoleUser::getId).collect(Collectors.toList());
+        List<Long> flowRoleIds = flowRoleUsers.stream().map(FlowRoleUser::getFlowRoleId).collect(Collectors.toList());
         List<FlowRole> flowRoles = flowRoleMapper.createLambdaQuery()
                 .andIn(FlowRole::getId, flowRoleIds)
                 .select(FlowRole::getRoleName);
