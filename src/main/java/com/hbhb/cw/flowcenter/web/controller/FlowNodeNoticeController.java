@@ -69,6 +69,6 @@ public class FlowNodeNoticeController implements FlowNodeNoticeApi {
                 .filter(vo -> vo.getState().equals(state))
                 .map(FlowNodeNoticeVO::getInform)
                 .findFirst()
-                .orElse(null);
+                .orElse("");
     }
 }

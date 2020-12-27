@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.annotation.Resource;
 
@@ -86,7 +87,8 @@ public class FlowTypeController implements FlowTypeApi {
     @Operation(summary = "获取流程类型名称")
     @Override
     public String getNameById(@Parameter(description = "流程类型id") @RequestParam Long id) {
-        return flowTypeService.getFlowTypeInfo(id).getFlowTypeName();
+        FlowType flowType = flowTypeService.getFlowTypeInfo(id);
+        return Optional.ofNullable(flowType.getFlowTypeName()).orElse("");
     }
 
     @Override
