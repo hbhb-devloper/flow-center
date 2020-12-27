@@ -294,7 +294,15 @@ public class FlowServiceImpl implements FlowService {
             // 先删除
             flowLineMapper.createLambdaQuery().andIn(FlowLine::getId, flowLineIds).delete();
             // 再保存
-            flowLineMapper.insertBatch(flowLines);
+            flowLineMapper.batchInsert(flowLines.stream().map(line ->
+                    FlowLineVO.builder()
+                            .id(line.getId())
+                            .flowId(line.getFlowId())
+                            .from(line.getFromNodeId())
+                            .to(line.getToNodeId())
+                            .label(line.getLabel())
+                            .build())
+                    .collect(Collectors.toList()));
         }
     }
 
