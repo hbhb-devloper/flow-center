@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.Optional;
 
 import javax.annotation.Resource;
 
@@ -75,6 +74,6 @@ public class FlowRoleController implements FlowRoleApi {
     @Override
     public String getNameById(@Parameter(description = "流程角色id") @RequestParam Long id) {
         FlowRole flowRole = flowRoleService.getFlowRole(id);
-        return Optional.ofNullable(flowRole.getRoleName()).orElse("");
+        return flowRole == null ? "" : flowRole.getRoleName();
     }
 }

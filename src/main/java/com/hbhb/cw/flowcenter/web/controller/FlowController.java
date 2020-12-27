@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.Optional;
 
 import javax.annotation.Resource;
 
@@ -104,7 +103,7 @@ public class FlowController implements FlowApi {
     @Operation(summary = "按节点id获取流程名称")
     @Override
     public String getNameByNodeId(@Parameter(description = "节点id", required = true) String nodeId) {
-        return Optional.ofNullable(flowService.getNameByNodeId(nodeId)).orElse("");
+        return flowService.getNameByNodeId(nodeId);
     }
 
     @Operation(summary = "按类型id获取流程列表")
