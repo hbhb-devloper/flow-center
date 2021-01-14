@@ -112,6 +112,7 @@ public class FlowRoleUserController implements FlowRoleUserApi {
         return flowRoleUserService.getRoleIdByUserId(userId);
     }
 
+    @Operation(summary = "按用户id和单位id查询角色id")
     @Override
     public List<SelectVO> getUserByRoleAndUnit(Integer unitId, Long flowRoleId) {
         return flowRoleUserService.getUserByRoleInUnit(unitId, flowRoleId);
