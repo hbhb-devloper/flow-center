@@ -7,7 +7,9 @@ import com.hbhb.cw.flowcenter.service.FlowService;
 import com.hbhb.cw.flowcenter.web.vo.FlowResVO;
 import com.hbhb.cw.flowcenter.web.vo.FlowVO;
 import com.hbhb.cw.flowcenter.web.vo.FlowVfdVO;
-
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.beetl.sql.core.page.PageResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,13 +21,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-
 import javax.annotation.Resource;
-
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.tags.Tag;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author wangxiaogang
@@ -110,5 +108,11 @@ public class FlowController implements FlowApi {
     @Override
     public List<Flow> getFlowsByTypeId(@Parameter(description = "类型id", required = true) Long typeId) {
         return flowService.getFlowsByTypeId(typeId);
+    }
+
+    @Override
+    @Operation(summary = "流程名称下拉列表")
+    public Map<Long, String> getFlowMapName(Long aLong) {
+        return null;
     }
 }

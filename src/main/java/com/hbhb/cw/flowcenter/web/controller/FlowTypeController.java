@@ -8,7 +8,9 @@ import com.hbhb.cw.flowcenter.model.Flow;
 import com.hbhb.cw.flowcenter.model.FlowType;
 import com.hbhb.cw.flowcenter.service.FlowService;
 import com.hbhb.cw.flowcenter.service.FlowTypeService;
-
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.beetl.sql.core.page.PageResult;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -21,13 +23,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-
 import javax.annotation.Resource;
-
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.tags.Tag;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author wangxiaogang
@@ -93,5 +91,11 @@ public class FlowTypeController implements FlowTypeApi {
     @Override
     public Long getTypeIdByNode(String flowNodeId) {
         return flowTypeService.getIdByNodeId(flowNodeId);
+    }
+
+    @Override
+    @Operation(summary = "获取流程类型名称下拉")
+    public Map<Long, String> getFlowTypeMapName() {
+        return null;
     }
 }
