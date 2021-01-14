@@ -111,4 +111,9 @@ public class FlowRoleUserController implements FlowRoleUserApi {
     public List<Long> getRoleIdByUserId(@Parameter(description = "用户id") Integer userId) {
         return flowRoleUserService.getRoleIdByUserId(userId);
     }
+
+    @Override
+    public List<SelectVO> getUserByRoleAndUnit(Integer unitId, Long flowRoleId) {
+        return flowRoleUserService.getUserByRoleInUnit(unitId, flowRoleId);
+    }
 }
