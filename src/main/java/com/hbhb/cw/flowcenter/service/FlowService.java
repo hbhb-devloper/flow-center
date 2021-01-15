@@ -5,10 +5,10 @@ import com.hbhb.cw.flowcenter.model.Flow;
 import com.hbhb.cw.flowcenter.web.vo.FlowResVO;
 import com.hbhb.cw.flowcenter.web.vo.FlowVO;
 import com.hbhb.cw.flowcenter.web.vo.FlowVfdVO;
-
 import org.beetl.sql.core.page.PageResult;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author wangxiaogang
@@ -75,4 +75,20 @@ public interface FlowService {
      * 按类型id获取流程列表
      */
     List<Flow> getFlowsByTypeId(Long typeId);
+
+    /**
+     * 跟据id批量获取名称
+     *
+     * @param ids ids
+     * @return 列表
+     */
+    Map<Long, String> getFlowNameByIds(List<Long> ids);
+
+    /**
+     * 跟据流程类型id获取流程名称下拉列表
+     *
+     * @param typeId typeId
+     * @return 流程名称下拉列表
+     */
+    List<SelectVO> getFlowNameByTypeId(Long typeId);
 }

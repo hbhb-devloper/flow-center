@@ -22,23 +22,20 @@ import com.hbhb.cw.flowcenter.web.vo.FlowNodeVO;
 import com.hbhb.cw.flowcenter.web.vo.FlowResVO;
 import com.hbhb.cw.flowcenter.web.vo.FlowVO;
 import com.hbhb.cw.flowcenter.web.vo.FlowVfdVO;
-
+import lombok.extern.slf4j.Slf4j;
 import org.beetl.sql.core.page.DefaultPageRequest;
 import org.beetl.sql.core.page.PageRequest;
 import org.beetl.sql.core.page.PageResult;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
-import javax.annotation.Resource;
-
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author wangxiaogang
@@ -61,8 +58,6 @@ public class FlowServiceImpl implements FlowService {
     @Resource
     private FlowNodeNoticeMapper flowNodeNoticeMapper;
 
-    @Resource
-    private JdbcTemplate jdbcTemplate;
 
     @Override
     public PageResult<FlowResVO> pageFlow(Integer pageNum, Integer pageSize,
@@ -337,5 +332,31 @@ public class FlowServiceImpl implements FlowService {
                 .andEq(Flow::getFlowTypeId, typeId)
                 .andEq(Flow::getDeleteFlag, 1)
                 .select();
+    }
+
+    @Override
+    public Map<Long, String> getFlowNameByIds(List<Long> ids) {
+        List<Flow> select = flowMapper.createLambdaQuery()
+                .andIn(Flow::getId, ids)
+                .select(Flow::getId, Flow::getFlowName);
+        return select.stream()
+                .collect(Collectors
+                        .toMap(Flow::getId, Flow::getFlowName));
+    }
+
+    @Override
+    public List<SelectVO> getFlowNameByTypeId(Long typeId) {
+        List<Flow> flows = flowMapper.createLambdaQuery()
+                .andEq(Flow::getDeleteFlag, 1)
+                .andEq(Flow::getFlowTypeId, typeId)
+                .select(Flow::getId, Flow::getFlowName);
+        return Optional.ofNullable(flows)
+                .orElse(new ArrayList<>())
+                .stream()
+                .map(flow -> SelectVO.builder()
+                        .id(flow.getId())
+                        .label(flow.getFlowName())
+                        .build())
+                .collect(Collectors.toList());
     }
 }

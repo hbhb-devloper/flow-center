@@ -111,8 +111,16 @@ public class FlowController implements FlowApi {
     }
 
     @Override
-    @Operation(summary = "流程名称下拉列表")
-    public Map<Long, String> getFlowMapName(Long aLong) {
-        return null;
+    @Operation(summary = "流程名称")
+    public Map<Long, String> getFlowMapName(@Parameter(description = "流程id列表", required = true)
+                                                    List<Long> ids) {
+        return flowService.getFlowNameByIds(ids);
     }
+
+    @Operation(summary = "按类型id获取流程列表")
+    @GetMapping("/names")
+    public List<SelectVO> getFlowNameByTypeId(@Parameter(description = "类型id", required = true) Long typeId) {
+        return flowService.getFlowNameByTypeId(typeId);
+    }
+
 }

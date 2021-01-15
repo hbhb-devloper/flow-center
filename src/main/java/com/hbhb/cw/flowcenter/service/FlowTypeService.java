@@ -2,10 +2,10 @@ package com.hbhb.cw.flowcenter.service;
 
 import com.hbhb.api.core.bean.SelectVO;
 import com.hbhb.cw.flowcenter.model.FlowType;
-
 import org.beetl.sql.core.page.PageResult;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author wangxiaogang
@@ -41,4 +41,12 @@ public interface FlowTypeService {
      * 跟据节点id获取流程类型id
      */
     Long getIdByNodeId(String flowNodeId);
+
+    /**
+     * 跟据id批量获取名称
+     *
+     * @param ids ids
+     * @return 列表
+     */
+    Map<Long, String> getFlowTypeNameByIds(List<Long> ids);
 }

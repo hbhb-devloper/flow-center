@@ -94,8 +94,9 @@ public class FlowTypeController implements FlowTypeApi {
     }
 
     @Override
-    @Operation(summary = "获取流程类型名称下拉")
-    public Map<Long, String> getFlowTypeMapName() {
-        return null;
+    @Operation(summary = "获取流程类型")
+    public Map<Long, String> getFlowTypeMapName(List<Long> ids) {
+        return flowTypeService.getFlowTypeNameByIds(ids);
     }
+
 }
