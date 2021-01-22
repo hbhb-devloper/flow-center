@@ -39,6 +39,7 @@ public class FlowRoleServiceImpl implements FlowRoleService {
     public PageResult<FlowRole> pageFlowRole(Integer pageNum, Integer pageSize) {
         return flowRoleMapper.createLambdaQuery()
                 .asc(FlowRole::getSortNum)
+                .asc(FlowRole::getId)
                 .page(pageNum, pageSize);
     }
 
